@@ -1,38 +1,26 @@
-#include  <iostream>
+#include "comodo.h"
 
-using namespace std;
-
-class eletroDomestico {
-    public:
-    int potencia, quantidade, diasSimulado;
-    float horasUsadas, kwh;
-    void constru_eletroDomestico(int potenciaInput = 1, int quantidaInput = 1, float horasInput = 1, float diasInput = 1 ) {
-        potencia = potenciaInput;
-        quantidade = quantidaInput;
-        horasUsadas = horasInput;
-        diasSimulado = diasInput;
-    };
-    float calcKwh() {
-        kwh = (potencia * horasUsadas * diasSimulado * quantidade)/1000 ;
-        return kwh;
-    }
-
-    int setKwh(float kwhInput) {
-        kwh = kwhInput;
-    }
-
-    float getKwh() {
-        return kwh;
-    }
-
-    int getPotencia() {
-        return potencia;
-    }
-    int getQuantidade() {
-        return quantidade;
-    }
-    float getHorasUsadas() {
-        return horasUsadas;
-    }
-
+const map<string, double> Comodo::consumoEnergetico = {
+    //simulação 
+    {"Geladeira", 30.0},
+    {"Televisao", 10.0},
+    {"Microondas", 15.0}
 };
+
+Comodo::Comodo(const string& nome) : nome(nome) {}
+
+void Comodo::adicionarEletrodomestico(const string& nomeEletro, double consumo) {
+    eletrodomesticos[nomeEletro] = consumo;
+}
+
+void Comodo::retirarEletrodomestico(const string& nomeEletro) {
+    eletrodomesticos.erase(nomeEletro);
+}
+
+double Comodo::calcularConsumoTotal() const {
+    double total = 0.0;
+    for (const auto& par : eletrodomesticos) {
+        total += par.second;
+    }
+    return total;
+}
