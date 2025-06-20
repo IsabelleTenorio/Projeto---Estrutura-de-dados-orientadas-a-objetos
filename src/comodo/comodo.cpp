@@ -24,3 +24,7 @@ double Comodo::calcularConsumoTotal() const {
     }
     return total;
 }
+
+std::string Comodo:: getNome() const {
+    return nome;
+}

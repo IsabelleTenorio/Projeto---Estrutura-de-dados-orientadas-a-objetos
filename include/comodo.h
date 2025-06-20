@@ -15,6 +15,9 @@ public:
     void retirarEletrodomestico(const string& nomeEletro);
     double calcularConsumoTotal() const;
 
+    string getNome() const; // isaac -- adicionei isso pq tava precisando de uma forma de pegar o nome do comodo pra 
+                            // poder remover o comodo 
+
 private:
     string nome;
     map<string, double> eletrodomesticos;
