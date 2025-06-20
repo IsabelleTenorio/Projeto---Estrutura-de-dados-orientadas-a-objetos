@@ -1,59 +1,38 @@
-#include <iostream>
+#include "eletronico.h"
 
-using namespace std;
+eletroDomestico::eletroDomestico(int potenciaInput, int quantidadeInput, float horasInput, int diasInput) {
+    potencia = potenciaInput;
+    quantidade = quantidadeInput;
+    horasUsadas = horasInput;
+    diasSimulado = diasInput;
+    kwh = 0.0;
+}
 
-class eletroDomestico {
-    public:
+float eletroDomestico::calcKwh() {
+    kwh = (potencia * horasUsadas * diasSimulado * quantidade) / 1000.0;
+    return kwh;
+}
 
-    int potencia, quantidade, diasSimulado;
-    float horasUsadas, kwh;
+void eletroDomestico::setKwh(float kwhInput) {
+    kwh = kwhInput;
+}
 
+float eletroDomestico::getKwh() const {
+    return kwh;
+}
 
-    void constru_eletroDomestico(int potenciaInput = 1, int quantidaInput = 1, float horasInput = 1, float diasInput = 1 ) {
+int eletroDomestico::getPotencia() const {
+    return potencia;
+}
 
-        potencia = potenciaInput;
-        quantidade = quantidaInput;
-        horasUsadas = horasInput;
-        diasSimulado = diasInput;
+int eletroDomestico::getQuantidade() const {
+    return quantidade;
+}
 
-    };
+float eletroDomestico::getHorasUsadas() const {
+    return horasUsadas;
+}
 
-
-    float calcKwh() {
-
-        kwh = (potencia * horasUsadas * diasSimulado * quantidade)/1000 ;
-
-        return kwh;
-    }
-
-
-    int setKwh(float kwhInput) {
-
-        kwh = kwhInput;
-
-    }
-
-
-    float getKwh() {
-        return kwh;
-    }
-
-
-    int getPotencia() {
-        return potencia;
-    }
-
-
-    int getQuantidade() {
-        return quantidade;
-    }
-
-
-    float getHorasUsadas() {
-        return horasUsadas;
-    }
-
-    private:
-
-
-};
+int eletroDomestico::getDiasSimulado() const {
+    return diasSimulado;
+}
