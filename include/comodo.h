@@ -26,5 +26,6 @@ private:
 };
 
 //precisa de um metodo setNome
+//precisa de um metodo getEletrodomesticos (que exiba os eletrodomesticos do comodo (1 em casa linha))
 
 #endif // COMODO_H
