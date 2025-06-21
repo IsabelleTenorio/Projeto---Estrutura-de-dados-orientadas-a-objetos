@@ -8,10 +8,10 @@ void Casa::addComodo(const Comodo& comodo) {
 }
 
 void Casa::removeComodo(const std::string& nomeComodo) {
-    for (auto it = comodos.begin(); it != comodos.end(); ++it) { // percorre o vetor de comodos, o begin() diz respeito ao primeiro elemento do vetor, e o end() ao ultimo elemento
-        if (it-> getNome() == nomeComodo) {
-            comodos.erase(it);
-            return;
+    for (size_t i = 0; i < comodos.size(); ++i) {
+        if (comodos[i].getNome() == nomeComodo) {
+            comodos.erase(comodos.begin() + i); 
+            return; 
         }
     }
 }

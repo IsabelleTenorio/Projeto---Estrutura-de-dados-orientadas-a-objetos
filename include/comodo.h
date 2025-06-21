@@ -25,4 +25,6 @@ private:
     static const map<string, double> consumoEnergetico;
 };
 
+//precisa de um metodo setNome
+
 #endif // COMODO_H

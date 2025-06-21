@@ -28,3 +28,5 @@ double Comodo::calcularConsumoTotal() const {
 std::string Comodo:: getNome() const {
     return nome;
 }
+
+//precisa de um metodo setNome
