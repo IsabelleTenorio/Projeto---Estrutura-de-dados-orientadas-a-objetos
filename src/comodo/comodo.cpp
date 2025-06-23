@@ -1,4 +1,5 @@
 #include "comodo.h"
+using namespace std;
 
 const map<string, double> Comodo::consumoEnergetico = {
     //simulação 
@@ -25,8 +26,11 @@ double Comodo::calcularConsumoTotal() const {
     return total;
 }
 
-std::string Comodo:: getNome() const {
+string Comodo::getNome() const {
     return nome;
 }
 
+string Comodo::setNome() const{
+    return nome; 
+}
 //precisa de um metodo setNome

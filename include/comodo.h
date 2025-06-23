@@ -23,9 +23,10 @@ private:
     map<string, double> eletrodomesticos;
 
     static const map<string, double> consumoEnergetico;
+
+    string setNome() const; // duda -- serve para setar o nome do comodo
 };
 
-//precisa de um metodo setNome
 //precisa de um metodo getEletrodomesticos (que exiba os eletrodomesticos do comodo (1 em casa linha))
 
 #endif // COMODO_H
