@@ -1,4 +1,5 @@
 #include "comodo.h"
+#include <iostream>
 using namespace std;
 
 const map<string, double> Comodo::consumoEnergetico = {
@@ -8,7 +9,7 @@ const map<string, double> Comodo::consumoEnergetico = {
     {"Microondas", 15.0}
 };
 
-Comodo::Comodo(const string& nome) : nome(nome) {}
+Comodo::Comodo(const string& nomeComodo) : nomeComodo(nomeComodo) {}
 
 void Comodo::adicionarEletrodomestico(const string& nomeEletro, double consumo) {
     eletrodomesticos[nomeEletro] = consumo;
@@ -27,10 +28,10 @@ double Comodo::calcularConsumoTotal() const {
 }
 
 string Comodo::getNome() const {
-    return nome;
+    return nomeComodo;
 }
 
-string Comodo::setNome() const{
-    return nome; 
+string Comodo::setNome(string nomeInput) { 
+    nomeComodo = nomeInput; // Belle: estava igual ao getNome e tive que tirar o const pq não estava deixando mudar o valor
 }
 //precisa de um metodo setNome

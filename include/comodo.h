@@ -8,8 +8,16 @@ using std::string;
 using std::map;
 
 class Comodo {
+private:
+    string nomeComodo;
+    map<string, double> eletrodomesticos;
+
+    static const map<string, double> consumoEnergetico;
+
+    string setNome(string nomeInput) ; // duda -- serve para setar o nome do comodo
+
 public:
-    Comodo(const string& nome);
+    Comodo(const string& nomeComodo);
 
     void adicionarEletrodomestico(const string& nomeEletro, double consumo);
     void retirarEletrodomestico(const string& nomeEletro);
@@ -17,14 +25,6 @@ public:
 
     string getNome() const; // isaac -- adicionei isso pq tava precisando de uma forma de pegar o nome do comodo pra 
                             // poder remover o comodo 
-
-private:
-    string nome;
-    map<string, double> eletrodomesticos;
-
-    static const map<string, double> consumoEnergetico;
-
-    string setNome() const; // duda -- serve para setar o nome do comodo
 };
 
 //precisa de um metodo getEletrodomesticos (que exiba os eletrodomesticos do comodo (1 em casa linha))
