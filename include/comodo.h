@@ -4,29 +4,27 @@
 #include <string>
 #include <map>
 
-using std::string;
-using std::map;
+using namespace std;
 
 class Comodo {
 public:
     Comodo(const string& nome);
 
-    void adicionarEletrodomestico(const string& nomeEletro, double consumo);
-    void retirarEletrodomestico(const string& nomeEletro);
-    double calcularConsumoTotal() const;
+    void adicionarEletrodomestico(const string& nomeEletro, double consumo); //-- adiciona eletrodoméstico com seu consumo na lista
+    void retirarEletrodomestico(const string& nomeEletro); //-- retira eletrodoméstico da lista
+    double calcularConsumoTotal() const; //-- calcula o consumo total de energia do cômodo
 
-    string getNome() const; // isaac -- adicionei isso pq tava precisando de uma forma de pegar o nome do comodo pra 
-                            // poder remover o comodo 
+    string getNome() const; //--pega o nome do cômodo
+    void setNome(const string& novoNome); //-- define o nome do cômodo
+
+
+    //duda: eu nao sabia se queriam uma lista com o consumo ou sem entao ta os dois
+    string getEletrodomesticos() const; //-- retorna uma lista de eletrodomésticos no cômodo
+    string getEletrodomesticosConsumo() const; //-- retorna uma lista de eletrodomésticos com seus consumos no cômodo
 
 private:
     string nome;
     map<string, double> eletrodomesticos;
-
-    static const map<string, double> consumoEnergetico;
-
-    string setNome() const; // duda -- serve para setar o nome do comodo
 };
-
-//precisa de um metodo getEletrodomesticos (que exiba os eletrodomesticos do comodo (1 em casa linha))
 
 #endif // COMODO_H
