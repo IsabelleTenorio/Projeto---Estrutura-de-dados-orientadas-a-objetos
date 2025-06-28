@@ -10,6 +10,7 @@ class Sistema {
     
     void telaInicial();
     void menuPrincipal();
+    void menuComodo();
     
 
     public:

@@ -56,82 +56,11 @@ void Sistema::menuPrincipal() {
             }
         }
 
-            case 5: {
-                std::string nomeComodo;
-                if (casa.getComodos().empty()) {
-                    std::cout << "Nenhum comodo cadastrado. Adicione um comodo primeiro.\n";
-                    break;
-                }
-                else {
-                casa.imprimirComodos();
-            
-                std::cout << "Digite o nome do comodo que voce deseja acessar: ";
-                std::cin.ignore();
-                std::getline(std::cin, nomeComodo);
-                Comodo& comodo = casa.getComodo(nomeComodo);
-
-                int opcaoComodo;
-                do {
-                    std::cout << "\n== Menu do comodo: " << comodo.getNome() << " ==\n";
-                    std::cout << "1. Exibir eletrodomesticos\n";
-                    std::cout << "2. Exibir consumo do comodo\n";
-                    std::cout << "3. Adicionar eletrodomestico\n";
-                    std::cout << "4. Remover eletrodomestico\n";
-                    std::cout << "5. Voltar ao menu principal\n";
-                    std::cout << "Digite o numero da opcao desejada: ";
-                    std::cin >> opcaoComodo;
-
-                    switch (opcaoComodo) {
-                        case 1: {
-                            std::cout << "Eletrodomesticos no comodo " << comodo.getNome() << ":\n";
-                            for (const auto& eletro : comodo.getEletrodomesticos()) {
-                                std::cout << eletro << std::endl;
-                            }
-                            break;
-                        }
-
-                        case 2:
-                            std::cout << "Consumo do comodo " << comodo.getNome() << ": " << comodo.calcularConsumoTotal() << " kWh\n";
-                            break;
-
-                        case 3: {
-                            std::string nomeEletro;
-                            double consumo;
-                            std::cout << "Digite o nome do eletrodomestico: ";
-                            std::cin.ignore();
-                            std::getline(std::cin, nomeEletro);
-                            std::cout << "Digite o consumo do eletrodomestico (kWh): ";
-                            std::cin >> consumo;
-                            comodo.adicionarEletrodomestico(nomeEletro, consumo);
-                            std::cout << "Eletrodomestico adicionado com sucesso!\n";
-                            break;
-                        }
-
-                        case 4: {
-                            std::string nomeEletro;
-                            std::cout << "Digite o nome do eletrodomestico que voce deseja remover: ";
-                            std::cin.ignore();
-                            std::getline(std::cin, nomeEletro);
-                            comodo.retirarEletrodomestico(nomeEletro);
-                            std::cout << "Eletrodomestico removido com sucesso!\n";
-                            break;
-                        }
-
-                        case 5:
-                            std::cout << "Voltando ao menu principal...\n";
-                            break;
-
-                        default:
-                            std::cout << "Opcao invalida! Tente novamente.\n";
-                            break;
-                    }
-
-                } while (opcaoComodo != 5);
-
+            case 5: 
+                menuComodo();
                 break;
-            }
-        }
-
+            
+        
             case 6:
                 std::cout << "Encerrando o programa...\n";
                 break;
@@ -143,3 +72,77 @@ void Sistema::menuPrincipal() {
 
     } while (opcao != 6);
 }
+
+void Sistema::menuComodo() {
+    std::string nomeComodo;
+    if (casa.getComodos().empty()) {
+        std::cout << "Nenhum comodo cadastrado. Adicione um comodo primeiro.\n";
+    }
+    else {
+    casa.imprimirComodos();
+
+    std::cout << "Digite o nome do comodo que voce deseja acessar: ";
+    std::cin.ignore();
+    std::getline(std::cin, nomeComodo);
+    Comodo& comodo = casa.getComodo(nomeComodo);
+
+    int opcaoComodo;
+    do {
+        std::cout << "\n== Menu do comodo: " << comodo.getNome() << " ==\n";
+        std::cout << "1. Exibir eletrodomesticos\n";
+        std::cout << "2. Exibir consumo do comodo\n";
+        std::cout << "3. Adicionar eletrodomestico\n";
+        std::cout << "4. Remover eletrodomestico\n";
+        std::cout << "5. Voltar ao menu principal\n";
+        std::cout << "Digite o numero da opcao desejada: ";
+        std::cin >> opcaoComodo;
+
+        switch (opcaoComodo) {
+            case 1: {
+                std::cout << "Eletrodomesticos no comodo " << comodo.getNome() << ":\n";
+                for (const auto& eletro : comodo.getEletrodomesticos()) {
+                    std::cout << eletro << std::endl;
+                }
+                break;
+            }
+
+            case 2:
+                std::cout << "Consumo do comodo " << comodo.getNome() << ": " << comodo.calcularConsumoTotal() << " kWh\n";
+                break;
+
+            case 3: {
+                std::string nomeEletro;
+                double consumo;
+                std::cout << "Digite o nome do eletrodomestico: ";
+                std::cin.ignore();
+                std::getline(std::cin, nomeEletro);
+                std::cout << "Digite o consumo do eletrodomestico (kWh): ";
+                std::cin >> consumo;
+                comodo.adicionarEletrodomestico(nomeEletro, consumo);
+                std::cout << "Eletrodomestico adicionado com sucesso!\n";
+                break;
+            }
+
+            case 4: {
+                std::string nomeEletro;
+                std::cout << "Digite o nome do eletrodomestico que voce deseja remover: ";
+                std::cin.ignore();
+                std::getline(std::cin, nomeEletro);
+                comodo.retirarEletrodomestico(nomeEletro);
+                std::cout << "Eletrodomestico removido com sucesso!\n";
+                break;
+            }
+
+            case 5:
+                std::cout << "Voltando ao menu principal...\n";
+                break;
+
+            default:
+                std::cout << "Opcao invalida! Tente novamente.\n";
+                break;
+        }
+
+    } while (opcaoComodo != 5);
+}
+}
+
