@@ -1,15 +1,7 @@
 #include "comodo.h"
-#include <iostream>
 using namespace std;
 
-const map<string, double> Comodo::consumoEnergetico = {
-    //simulação 
-    {"Geladeira", 30.0},
-    {"Televisao", 10.0},
-    {"Microondas", 15.0}
-};
-
-Comodo::Comodo(const string& nomeComodo) : nomeComodo(nomeComodo) {}
+Comodo::Comodo(const string& nome) : nome(nome) {}
 
 void Comodo::adicionarEletrodomestico(const string& nomeEletro, double consumo) {
     eletrodomesticos[nomeEletro] = consumo;
@@ -28,10 +20,27 @@ double Comodo::calcularConsumoTotal() const {
 }
 
 string Comodo::getNome() const {
-    return nomeComodo;
+    return nome;
 }
 
-string Comodo::setNome(string nomeInput) { 
-    nomeComodo = nomeInput; // Belle: estava igual ao getNome e tive que tirar o const pq não estava deixando mudar o valor
+void Comodo::setNome(const string& novoNome) {
+    nome = novoNome;
 }
-//precisa de um metodo setNome
+
+
+//os dois metodos criados agora das listas uma com consumo e outra sem
+string Comodo::getEletrodomesticos() const {
+    string lista_eletrodomesticos;
+    for (const auto& par : eletrodomesticos) {
+        lista_eletrodomesticos += par.first + "\n";
+    }
+    return lista_eletrodomesticos;
+}
+
+string Comodo::getEletrodomesticosConsumo() const {
+    string lista_eletrodomesticos_consumo;
+    for (const auto& par : eletrodomesticos) {
+        lista_eletrodomesticos_consumo += par.first + ": " + to_string(par.second) + " kWh\n";
+    }
+    return lista_eletrodomesticos_consumo;
+}
