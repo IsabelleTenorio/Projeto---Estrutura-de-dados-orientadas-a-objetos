@@ -9,11 +9,10 @@ private:
 
 public:
 
-
     void addComodo(const Comodo& comodo);
     void removeComodo(const string& nomeComodo);
     void imprimirComodos() const;
-    float calcularConsumoComodos() const;
+    std::pair<float, float> calcularConsumoComodos() const;
     const vector<Comodo>& getComodos() const;
     Comodo& getComodo(const string& nome);
 
