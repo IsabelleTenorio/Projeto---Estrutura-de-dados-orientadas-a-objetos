@@ -27,16 +27,6 @@ void Comodo::setNome(const string& novoNome) {
     nome = novoNome;
 }
 
-
-//os dois metodos criados agora das listas uma com consumo e outra sem
-string Comodo::getEletrodomesticos() const {
-    string lista_eletrodomesticos;
-    for (const auto& par : eletrodomesticos) {
-        lista_eletrodomesticos += par.first + "\n";
-    }
-    return lista_eletrodomesticos;
-}
-
 string Comodo::getEletrodomesticosConsumo() const {
     string lista_eletrodomesticos_consumo;
     for (const auto& par : eletrodomesticos) {
