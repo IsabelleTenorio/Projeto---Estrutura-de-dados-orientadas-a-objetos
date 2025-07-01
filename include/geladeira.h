@@ -1,12 +1,28 @@
 #ifndef GELADEIRA_H
 #define GELADEIRA_H
-#include "eletronico.h"
-using namespace std;
 
+#include "eletroDomestico.h"  // Inclui a classe base
+#include <string>
+
+// Classe que representa uma geladeira, herda de eletroDomestico
 class geladeira : public eletroDomestico {
+private:
+    int potencia;      // Potência da geladeira em watts
+    float fatorUso;    // Fator de uso diário (ex: 0.8 representa 80% do tempo ligada)
+    float kwh;         // Consumo total em kWh
+
 public:
-    geladeira(int potenciaInput = 1, int quantidadeInput = 1, int diasInput = 1);
-    
+    // Construtor que inicializa os atributos e passa dados para a classe base
+    geladeira(std::string nome, int potenciaInput, int quantidadeInput = 1,
+              int diasInput = 1, float fatorUsoInput = 1.0f);
+
+    // Implementa o método polimórfico de cálculo de consumo
+    float calcKwh() override;
+
+    // Getters dos atributos privados
+    float getKwh() const;
+    int getPotencia() const;
+    float getFatorUso() const;
 };
 
-#endif
+#endif // GELADEIRA_H
