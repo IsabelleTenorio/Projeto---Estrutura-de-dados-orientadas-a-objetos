@@ -1,4 +1,8 @@
-#include <iostream>
-#include <sistema.h>
+#include "sistema.h"
 
-using namespace std;
+int main() {
+    Sistema meuSistema;
+    meuSistema.telaInicial();
+    meuSistema.menuPrincipal();
+    return 0;
+}

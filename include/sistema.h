@@ -6,13 +6,11 @@
 class Sistema {
 
     private:
-    Casa casa;
-    
-    void telaInicial();
-    void menuPrincipal();
-    
+    Casa casa;  
 
     public:
+    void telaInicial();
+    void menuPrincipal();
     Sistema();
 
 };

@@ -1,10 +1,40 @@
-#include"sistema.h"
+#include "sistema.h"
 #include <iostream>
 #include <locale.h>
 #include <vector>
 #include "geladeira.h"
 
 using namespace std;
+
+/*
+ * Este projeto usa CMake para configurar e compilar o código.
+ *
+ * Fluxo típico para compilar e executar:
+ *
+ * 1. Criar a pasta 'build' (se ainda não existir).
+ * 2. Entrar na pasta build e rodar(cd build):
+ *      cmake ..
+ *    Esse comando lê o CMakeLists.txt e gera os arquivos necessários para build.
+ *    Deve ser executado sempre que modificar o CMakeLists.txt.
+ *
+ * 3. Para compilar o código, rodar dentro da pasta build:
+ *      cmake --build .
+ *    Isso compila o código fonte e gera o executável.
+ *
+ * 4. Para executar o programa, rodar o executável gerado:
+ *      ./projeto.exe  (no Windows PowerShell)
+ *
+ * Você só precisa recompilar (passo 3) quando mudar o código fonte.
+ * Para rodar várias vezes, basta executar o executável.
+ *
+ * Obs:
+ * - A pasta 'build' não deve ser incluída no controle de versão (ex: GitHub).
+ * - Quem clonar o projeto deve criar a pasta build, rodar cmake e compilar.
+ */
+
+
+Sistema::Sistema() {}
+
 
 void Sistema::telaInicial() {
     setlocale(LC_ALL,"pt_BR.UTF-8");
