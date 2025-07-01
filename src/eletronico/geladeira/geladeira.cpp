@@ -3,9 +3,9 @@
 using namespace std;
 
 // Construtor: inicializa a classe base com nome, quantidade e dias, e define os atributos específicos
-geladeira::geladeira(std::string nomeInput = "Geladeira", int potenciaInput, int quantidadeInput, int diasInput,
+geladeira::geladeira(std::string nomeInput, int potenciaInput, int quantidadeInput, int diasInput,
                      float fatorUsoInput)
-    : eletroDomestico(nomeInput,quantidadeInput, diasInput),
+    : eletroDomestico("Geladeira",quantidadeInput, diasInput),
     potencia(potenciaInput),
     fatorUso(fatorUsoInput),
     kwh(0.0f)
