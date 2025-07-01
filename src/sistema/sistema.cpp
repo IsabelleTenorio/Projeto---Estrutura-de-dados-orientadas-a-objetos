@@ -16,7 +16,7 @@ void Sistema::menuPrincipal() {
     int opcao;
 
     do {
-        cout << "\n===== Sistema de Consumo Energético =====\n";
+        cout << "\n===== Sistema de Consumo Energetico =====\n";
         cout << "1. Listar comodos e consumo\n";
         cout << "2. Exibir consumo total da casa\n";
         cout << "3. Adicionar novo comodo\n";
