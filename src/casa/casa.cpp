@@ -16,12 +16,14 @@ void Casa::removeComodo(const std::string& nomeComodo) {
     }
 }
 
-float Casa::calcularConsumoComodos() const {
+std::pair<float, float> Casa::calcularConsumoComodos() const {
     float total = 0.0f;
+    float simular_conta;
     for (const auto& comodo : comodos) {
         total += comodo.calcularConsumoTotal();
     }
-    return total;
+    simular_conta = total * 0.706f; // supondo que o custo por kWh seja 0.706 em Recife atualmente
+    return {total, simular_conta};
 }
 
 Comodo& Casa::getComodo(const std::string& nome) {

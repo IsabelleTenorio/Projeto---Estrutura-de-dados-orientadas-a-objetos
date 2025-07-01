@@ -16,10 +16,7 @@ public:
 
     string getNome() const; //--pega o nome do cômodo
     void setNome(const string& novoNome); //-- define o nome do cômodo
-
-
-    //duda: eu nao sabia se queriam uma lista com o consumo ou sem entao ta os dois
-    string getEletrodomesticos() const; //-- retorna uma lista de eletrodomésticos no cômodo
+    
     string getEletrodomesticosConsumo() const; //-- retorna uma lista de eletrodomésticos com seus consumos no cômodo
 
 private:
