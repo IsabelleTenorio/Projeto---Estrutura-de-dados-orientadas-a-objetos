@@ -1,13 +1,18 @@
 #include"sistema.h"
 #include <iostream>
+#include <locale.h>
+#include <vector>
+#include "geladeira.h"
 
 using namespace std;
 
 void Sistema::telaInicial() {
+    setlocale(LC_ALL,"pt_BR.UTF-8");
     cout << "Bem-vindo ao sistema de monitoramento de energia!\n";
 }
 
 void Sistema::menuPrincipal() {
+    setlocale(LC_ALL,"pt_BR.UTF-8");
     int opcao;
 
     do {
@@ -35,11 +40,42 @@ void Sistema::menuPrincipal() {
 
             case 3: {
                 string nomeComodo;
-                cout << "Digite o nome do novo comodo: ";
-                cin.ignore();
-                getline(cin, nomeComodo);
-                casa.addComodo(Comodo(nomeComodo));
-                cout << "Comodo adicionado com sucesso!\n";
+                int tipoAdicao;
+                cout << "Escolha um comodo para ser adicionado: ";
+                cout << "1 - Banheiro \n2 - Cozinha \n3 - Quarto\n 4 - Sala\n 5 - Outro\n";
+                cin >> tipoAdicao;
+                if (tipoAdicao == 1 || tipoAdicao == 2 || tipoAdicao == 3 || tipoAdicao == 4) {
+                    vector<string> comodosEstaticos = {"Banheiro", "Cozinha", "Quarto", "Sala"}; //Vetor com comodos estaticos
+                    nomeComodo = comodosEstaticos[tipoAdicao - 1]; //Identifica qual é o nome do comodo dentro do vetor
+                    casa.addComodo(Comodo(nomeComodo));
+                    cout << "Comodo adicionado com sucesso!\n";
+                    cout << "Adicionando eletrodomesticos pre-definidos para o comodo...\n";
+                    
+                    vector<vector<string>> eletronicosPreDefinidos = {{"Chuveiro", "SecadorDeCabelo", "Lampada"}, {"Geladeira", "MicroOndas", "Fogao", "Liquidificador", "Lampada"}, {"ArCondicionado", "Lampada", "Ventilador"}, {"TV", "Lampada", "Ventilador"}};
+                    Comodo nomeComodo(comodosEstaticos[tipoAdicao - 1]); //Matriz de vetores que contém os nomes dos eletrodomesticos básicos de cada comodo
+                    for (const auto& eletro : eletronicosPreDefinidos[tipoAdicao - 1]) { //Loop para digitar a potencia de cada eletrodomestico e adiciona-lo no comodo
+                        double potencia;
+                        cout << "Digite a potencia (kwh) do eletrodomestico " << eletro << ": ";
+                        cin >> potencia;
+                        if (eletro == "Geladeira") { //Adiciona geladeira, que é um eletrodomestico que funciona diferente
+                            geladeira Geladeira("Geladeira", potencia);
+                            nomeComodo.adicionarEletrodomestico(eletro, potencia);
+                        } else {
+                            nomeComodo.adicionarEletrodomestico(eletro, potencia);
+                        }
+                    }
+                    cout << "Eletrodomesticos adicionados com sucesso!\n";
+
+                } else if (tipoAdicao == 5) {
+                    cout << "Digite o nome do novo comodo: ";
+                    cin.ignore();
+                    getline(cin, nomeComodo);
+                    casa.addComodo(Comodo(nomeComodo));
+                    cout << "Comodo adicionado com sucesso!\n";
+                } else {
+                    cout << "Opção inválida! Digite novamente uma opção válida: ";
+                    cin >> tipoAdicao;
+                }
                 break;
             }
 
