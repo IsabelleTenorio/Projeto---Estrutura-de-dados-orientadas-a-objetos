@@ -1,7 +1,7 @@
 #include "eletronicoGenerico.h"
 #include <string>
 
-// Construtor usando member initializer list é mais eficiente
+// Construtor usando member initializer list é mais eficiente                   quantidade de eletrodomesticos (ex: adicionar 2 geladeiras)
 eletronicoGenerico::eletronicoGenerico(std::string nomeInput,int potenciaInput, int quantidadeInput, float horasInput, int diasInput, bool possuiStandbyInput, float potenciaStandbyInput)
     :   eletroDomestico(nomeInput,quantidadeInput, diasInput),
         potencia(potenciaInput),
