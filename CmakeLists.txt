@@ -1,0 +1,17 @@
+cmake_minimum_required(VERSION 3.10)
+project(ProjetoEstruturaDeDados)
+
+# Diretório de headers
+include_directories(include)
+
+# Adiciona a flag para dizer que é app de console no Windows
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -mconsole")
+
+# Pega todos os arquivos .cpp
+file(GLOB_RECURSE SOURCES
+    src/**/*.cpp
+    main.cpp
+)
+
+# Cria o executável
+add_executable(projeto ${SOURCES})
