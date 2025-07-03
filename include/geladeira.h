@@ -9,7 +9,6 @@ class geladeira : public eletroDomestico {
 private:
     int potencia;      // Potência da geladeira em watts
     float fatorUso;    // Fator de uso diário (ex: 0.8 representa 80% do tempo ligada)
-    float kwh;         // Consumo total em kWh
 
 public:
     // Construtor que inicializa os atributos e passa dados para a classe base
@@ -20,7 +19,6 @@ public:
     float calcKwh() override;
 
     // Getters dos atributos privados
-    float getKwh() const;
     int getPotencia() const;
     float getFatorUso() const;
 };

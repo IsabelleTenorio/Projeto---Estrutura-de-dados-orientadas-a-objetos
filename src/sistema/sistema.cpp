@@ -3,6 +3,11 @@
 #include <locale.h>
 #include <vector>
 #include "geladeira.h"
+#include "comodo.h"
+#include "eletronicoGenerico.h"
+#include "casa.h"
+#include <string>
+#include "eletroDomestico.h"
 
 using namespace std;
 
@@ -39,6 +44,96 @@ Sistema::Sistema() {}
 void Sistema::telaInicial() {
     setlocale(LC_ALL,"pt_BR.UTF-8");
     cout << "Bem-vindo ao sistema de monitoramento de energia!\n";
+}
+
+
+
+
+void Sistema::testarSistema(){
+
+/*
+ * Criação e uso dos cômodos no sistema:
+ *
+ * 1. Cada cômodo é representado pela classe `Comodo`, que armazena um nome 
+ *    (ex: "Sala", "Quarto") e uma coleção de eletrodomésticos associados a ele.
+ *
+ * 2. Para criar um cômodo, usamos o construtor da classe `Comodo` passando o nome:
+ *      Comodo* sala = new Comodo("Sala");
+ *
+ * 3. Eletrodomésticos são criados dinamicamente, como objetos de subclasses de 
+ *    `eletroDomestico` (ex: `eletronicoGenerico`, `geladeira`), e depois adicionados
+ *    ao cômodo usando o método:
+ *      sala->adicionarEletrodomestico(eletro);
+ *    Isso registra o eletrodoméstico no mapa interno do cômodo, usando o nome como chave.
+ *
+ * 4. A classe `Casa` mantém uma lista de ponteiros para `Comodo`, representando todos
+ *    os cômodos da casa. Para adicionar um cômodo à casa, chamamos:
+ *      casa.addComodo(sala);
+ *
+ * 5. O sistema usa polimorfismo para calcular o consumo total de cada cômodo. Quando
+ *    pedimos para o cômodo calcular seu consumo (`sala->calcularConsumoTotal()`), 
+ *    ele percorre todos os eletrodomésticos registrados e chama o método `calcKwh()` 
+ *    apropriado para cada tipo, somando tudo.
+ *
+ * 6. Ao final, a `Casa` consegue calcular o consumo total da residência somando o 
+ *    consumo de todos os cômodos.
+ *
+ * 7. Importante: como usamos alocação dinâmica (`new`), a casa e os cômodos são 
+ *    responsáveis por liberar a memória com `delete` para evitar vazamentos.
+ *
+ * Resumo:
+ * - Criamos cômodos dinamicamente com `new Comodo("Nome")`.
+ * - Criamos eletrodomésticos e adicionamos aos cômodos.
+ * - Adicionamos os cômodos à casa.
+ * - Calculamos consumo chamando métodos polimórficos que somam os consumos.
+ * - Gerenciamos memória deletando os objetos criados.
+ */
+
+    cout << "\n=== INÍCIO DO TESTE DO SISTEMA ===\n";
+
+    // Cria cômodos dinamicamente
+    Comodo* sala = new Comodo("Sala");
+    Comodo* quarto = new Comodo("Quarto");
+    Comodo* cozinha = new Comodo("Cozinha");
+
+    // Cria eletrodomésticos de diferentes tipos
+    eletronicoGenerico* tv = new eletronicoGenerico("TV", 120, 1, 5.0, 30);
+    eletronicoGenerico* ventilador = new eletronicoGenerico("Ventilador", 80, 1, 8.0, 30);
+    geladeira* gela = new geladeira("Geladeira", 300, 1, 30, 0.8);
+    eletronicoGenerico* microondas = new eletronicoGenerico("Micro-ondas", 1100, 1, 0.5, 30);
+    eletronicoGenerico* computador = new eletronicoGenerico("Computador", 250, 1, 6.0, 30, true, 5);
+
+    // Adiciona eletrodomésticos aos cômodos
+    sala->adicionarEletrodomestico(tv);
+    sala->adicionarEletrodomestico(ventilador);
+    sala->adicionarEletrodomestico(computador);
+
+    quarto->adicionarEletrodomestico(gela);
+
+    cozinha->adicionarEletrodomestico(microondas);
+
+    // Adiciona cômodos à casa
+    casa.addComodo(sala);
+    casa.addComodo(quarto);
+    casa.addComodo(cozinha);
+
+    // Imprime os cômodos e consumos detalhados
+    casa.imprimirComodos();
+
+    // Mostra consumos individuais detalhados
+    cout << "\nConsumos detalhados por eletrodoméstico:\n";
+    for (const auto& comodoPtr : casa.getComodos()) {
+        cout << "No cômodo " << comodoPtr->getNome() << ":\n";
+        cout << comodoPtr->getEletrodomesticosConsumo();
+    }
+
+    auto resultado = casa.calcularConsumoComodos();
+    cout << "\nConsumo total da casa: " << resultado.first << " kWh\n";
+    cout << "Simulação de conta: R$ " << resultado.second << "\n";
+
+    cout << "=== FIM DO TESTE ===\n";
+
+    // A casa e os cômodos serão responsáveis por deletar os objetos alocados.
 }
 
 void Sistema::menuPrincipal() {

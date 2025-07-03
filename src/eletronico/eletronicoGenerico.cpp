@@ -1,5 +1,7 @@
 #include "eletronicoGenerico.h"
 #include <string>
+#include <iostream>
+#include <typeinfo>
 
 // Construtor usando member initializer list é mais eficiente                   quantidade de eletrodomesticos (ex: adicionar 2 geladeiras)
 eletronicoGenerico::eletronicoGenerico(std::string nomeInput,int potenciaInput, int quantidadeInput, float horasInput, int diasInput, bool possuiStandbyInput, float potenciaStandbyInput)
@@ -7,11 +9,14 @@ eletronicoGenerico::eletronicoGenerico(std::string nomeInput,int potenciaInput, 
         potencia(potenciaInput),
         horasUsadas(horasInput),
         possuiStandby(possuiStandbyInput),
-        potenciaStandby(potenciaStandbyInput),
-        kwh(0.0f)
+        potenciaStandby(potenciaStandbyInput)
 { }
 
 float eletronicoGenerico::calcKwh() {
+    std::cout << "[DEBUG] calcKwh chamado em tipo: " << typeid(*this).name() << std::endl;    
+    std::cout << "      > Entrando em calcKwh() de " << nome << std::endl;
+    std::cout << "      > potencia: " << potencia << ", horas: " << horasUsadas
+              << ", dias: " << diasSimulado << ", qtd: " << quantidade << std::endl;
     float consumoAtivo = (potencia * horasUsadas * diasSimulado * quantidade) / 1000.0f;
     float consumoStandby = 0.0f;
 
@@ -20,16 +25,8 @@ float eletronicoGenerico::calcKwh() {
         consumoStandby = (potenciaStandby * horasEmStandby * diasSimulado * quantidade) / 1000.0f;
     }
 
-    kwh = consumoAtivo + consumoStandby;
-    return kwh;
-}
-
-void eletronicoGenerico::setKwh(float kwhInput) {
-    kwh = kwhInput;
-}
-
-float eletronicoGenerico::getKwh() const {
-    return kwh;
+    this->kwh = consumoAtivo + consumoStandby;
+    return this->kwh;
 }
 
 int eletronicoGenerico::getPotencia() const {
