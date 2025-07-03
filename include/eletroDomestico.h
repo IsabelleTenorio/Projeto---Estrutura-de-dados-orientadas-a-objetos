@@ -9,6 +9,7 @@ protected:
     int quantidade;           // Quantidade de aparelhos iguais
     int diasSimulado;         // Quantos dias o consumo será simulado
     std::string nome;         // Nome do eletrodoméstico (ex: "Geladeira")
+    float kwh;
 
 public:
     // Construtor da classe base, inicializa os atributos comuns
@@ -36,6 +37,10 @@ public:
     std::string getNome() const {
         return nome;
     }
+
+    float getKwh() const{
+        return kwh;
+    };
 };
 
 #endif // ELETRODOMESTICO_H

@@ -10,9 +10,8 @@ class eletroEvento : public eletroDomestico {
 private:
     int potencia;              // Potência do aparelho em watts
     int duracaoEventoMin;      // Duração média de cada evento em minutos
-    int eventosPorDia;         // Quantas vezes por dia o aparelho é usado
-    float kwh;                 // Consumo total em kWh
-
+    int eventosPorDia;         // Quantas vezes por dia o aparelho é usado 
+    
 public:
     // Construtor que inicializa todos os atributos e passa nome, quantidade e dias para a base
     eletroEvento(std::string nomeInput, int potenciaInput, float duracaoEventoInput,
@@ -22,7 +21,6 @@ public:
     float calcKwh() override;
 
     // Getters para os atributos privados
-    float getKwh() const;
     int getPotencia() const;
     float getDuracaoEvento() const;
     int getEventosPorDia() const;
