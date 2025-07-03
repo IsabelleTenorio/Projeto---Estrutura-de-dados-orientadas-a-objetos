@@ -58,14 +58,17 @@ O objetivo deste projeto é simular o gasto energético de uma casa com diferent
 2. Entrar na pasta 'build' (cd build).
 3. Digitar "cmake .." no powershell/terminal do VsCode.
 4. Para compilar o código:
-- Sempre estar dentro da pasta 'build' e digitar "cmake --build .".
-- Digitar "./projeto.exe" ou ".\Debug\projeto.exe" a depender de onde o executável está.
+   - Sempre estar dentro da pasta 'build' e digitar "cmake --build .".
+   - Digitar "./projeto.exe" ou ".\Debug\projeto.exe" a depender de onde o executável está.
 
 ## Vídeo de apresentação do projeto
 Link youtube/drive
 
 ## Créditos e autoria
 [Eduarda Rodrigues de Moura Santana](https://github.com/dudarmouras) | erms2@cin.ufpe.br
+
 [Isaac Manoel Teixeira da Silva](https://github.com/isaacteixeira06) | imts2@cin.ufpe.br
+
 [Isabelle Tenório Vaz Bezerra](https://github.com/IsabelleTenorio) | itvb@cin.ufpe.br
+
 [Wallace Gabriel da Silva Leão](https://github.com/wallacinhochan) | wgsl@cin.ufpe.b
