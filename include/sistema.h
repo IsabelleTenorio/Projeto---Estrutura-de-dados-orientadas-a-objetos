@@ -9,9 +9,9 @@ class Sistema {
     Casa casa;  
 
     public:
-    void telaInicial();
-    void menuPrincipal();
     Sistema();
+    void telaInicial();
+    void testarSistema();
 
 };
 

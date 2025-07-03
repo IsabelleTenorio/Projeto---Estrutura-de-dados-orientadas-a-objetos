@@ -3,6 +3,11 @@
 #include <locale.h>
 #include <vector>
 #include "geladeira.h"
+#include "comodo.h"
+#include "eletronicoGenerico.h"
+#include "casa.h"
+#include <string>
+#include "eletroDomestico.h"
 
 using namespace std;
 
@@ -41,183 +46,92 @@ void Sistema::telaInicial() {
     cout << "Bem-vindo ao sistema de monitoramento de energia!\n";
 }
 
-void Sistema::menuPrincipal() {
-    setlocale(LC_ALL,"pt_BR.UTF-8");
-    int opcao;
 
-    do {
-        cout << "\n===== Sistema de Consumo Energetico =====\n";
-        cout << "1. Listar comodos e consumo\n";
-        cout << "2. Exibir consumo total da casa\n";
-        cout << "3. Adicionar novo comodo\n";
-        cout << "4. Excluir comodo\n";
-        cout << "5. Acessar comodo\n";
-        cout << "6. Acessar simulador de conta de energia\n";
-        cout << "7. Sair\n";
-        cout << "Digite o numero da opcao desejada: ";
-        cin >> opcao;
 
-        switch (opcao) {
-            case 1:
-                casa.imprimirComodos();
-                break;
+void Sistema::testarSistema(){
 
-            case 2: {
-                auto consumo = casa.calcularConsumoComodos();  
-                cout << "Consumo total da casa: " << consumo.second << " kWh\n";
-                break;
-            }
+/*
+ * Criação e uso dos cômodos no sistema:
+ *
+ * 1. Cada cômodo é representado pela classe `Comodo`, que armazena um nome 
+ *    (ex: "Sala", "Quarto") e uma coleção de eletrodomésticos associados a ele.
+ *
+ * 2. Para criar um cômodo, usamos o construtor da classe `Comodo` passando o nome:
+ *      Comodo* sala = new Comodo("Sala");
+ *
+ * 3. Eletrodomésticos são criados dinamicamente, como objetos de subclasses de 
+ *    `eletroDomestico` (ex: `eletronicoGenerico`, `geladeira`), e depois adicionados
+ *    ao cômodo usando o método:
+ *      sala->adicionarEletrodomestico(eletro);
+ *    Isso registra o eletrodoméstico no mapa interno do cômodo, usando o nome como chave.
+ *
+ * 4. A classe `Casa` mantém uma lista de ponteiros para `Comodo`, representando todos
+ *    os cômodos da casa. Para adicionar um cômodo à casa, chamamos:
+ *      casa.addComodo(sala);
+ *
+ * 5. O sistema usa polimorfismo para calcular o consumo total de cada cômodo. Quando
+ *    pedimos para o cômodo calcular seu consumo (`sala->calcularConsumoTotal()`), 
+ *    ele percorre todos os eletrodomésticos registrados e chama o método `calcKwh()` 
+ *    apropriado para cada tipo, somando tudo.
+ *
+ * 6. Ao final, a `Casa` consegue calcular o consumo total da residência somando o 
+ *    consumo de todos os cômodos.
+ *
+ * 7. Importante: como usamos alocação dinâmica (`new`), a casa e os cômodos são 
+ *    responsáveis por liberar a memória com `delete` para evitar vazamentos.
+ *
+ * Resumo:
+ * - Criamos cômodos dinamicamente com `new Comodo("Nome")`.
+ * - Criamos eletrodomésticos e adicionamos aos cômodos.
+ * - Adicionamos os cômodos à casa.
+ * - Calculamos consumo chamando métodos polimórficos que somam os consumos.
+ * - Gerenciamos memória deletando os objetos criados.
+ */
 
-            case 3: {
-                string nomeComodo;
-                int tipoAdicao;
-                cout << "Escolha um comodo para ser adicionado: ";
-                cout << "1 - Banheiro \n2 - Cozinha \n3 - Quarto\n 4 - Sala\n 5 - Outro\n";
-                cin >> tipoAdicao;
-                if (tipoAdicao == 1 || tipoAdicao == 2 || tipoAdicao == 3 || tipoAdicao == 4) {
-                    vector<string> comodosEstaticos = {"Banheiro", "Cozinha", "Quarto", "Sala"}; //Vetor com comodos estaticos
-                    nomeComodo = comodosEstaticos[tipoAdicao - 1]; //Identifica qual é o nome do comodo dentro do vetor
-                    casa.addComodo(Comodo(nomeComodo));
-                    cout << "Comodo adicionado com sucesso!\n";
-                    cout << "Adicionando eletrodomesticos pre-definidos para o comodo...\n";
-                    
-                    vector<vector<string>> eletronicosPreDefinidos = {{"Chuveiro", "SecadorDeCabelo", "Lampada"}, {"Geladeira", "MicroOndas", "Fogao", "Liquidificador", "Lampada"}, {"ArCondicionado", "Lampada", "Ventilador"}, {"TV", "Lampada", "Ventilador"}};
-                    Comodo nomeComodo(comodosEstaticos[tipoAdicao - 1]); //Matriz de vetores que contém os nomes dos eletrodomesticos básicos de cada comodo
-                    for (const auto& eletro : eletronicosPreDefinidos[tipoAdicao - 1]) { //Loop para digitar a potencia de cada eletrodomestico e adiciona-lo no comodo
-                        double potencia;
-                        cout << "Digite a potencia (kwh) do eletrodomestico " << eletro << ": ";
-                        cin >> potencia;
-                        if (eletro == "Geladeira") { //Adiciona geladeira, que é um eletrodomestico que funciona diferente
-                            geladeira Geladeira("Geladeira", potencia);
-                            nomeComodo.adicionarEletrodomestico(eletro, potencia);
-                        } else {
-                            nomeComodo.adicionarEletrodomestico(eletro, potencia);
-                        }
-                    }
-                    cout << "Eletrodomesticos adicionados com sucesso!\n";
+    cout << "\n=== INÍCIO DO TESTE DO SISTEMA ===\n";
 
-                } else if (tipoAdicao == 5) {
-                    cout << "Digite o nome do novo comodo: ";
-                    cin.ignore();
-                    getline(cin, nomeComodo);
-                    casa.addComodo(Comodo(nomeComodo));
-                    cout << "Comodo adicionado com sucesso!\n";
-                } else {
-                    cout << "Opção inválida! Digite novamente uma opção válida: ";
-                    cin >> tipoAdicao;
-                }
-                break;
-            }
+    // Cria cômodos dinamicamente
+    Comodo* sala = new Comodo("Sala");
+    Comodo* quarto = new Comodo("Quarto");
+    Comodo* cozinha = new Comodo("Cozinha");
 
-            case 4: {
-                string nomeComodo;
-                if (casa.getComodos().empty()) {
-                    cout << "Nenhum comodo cadastrado. Adicione um comodo primeiro.\n";
-                    break;
-                }
-                else {
-                casa.imprimirComodos();
-            
-                cout << "Digite o nome do comodo que voce deseja excluir: ";
-                cin.ignore();
-                getline(cin, nomeComodo); // esse getline é pra casos onde o nome do comodo tem espaços
-                casa.removeComodo(nomeComodo);
-                cout << "Comodo removido com sucesso!\n";
-                break;
-            }
-        }
+    // Cria eletrodomésticos de diferentes tipos
+    eletronicoGenerico* tv = new eletronicoGenerico("TV", 120, 1, 5.0, 30);
+    eletronicoGenerico* ventilador = new eletronicoGenerico("Ventilador", 80, 1, 8.0, 30);
+    geladeira* gela = new geladeira("Geladeira", 300, 1, 30, 0.8);
+    eletronicoGenerico* microondas = new eletronicoGenerico("Micro-ondas", 1100, 1, 0.5, 30);
+    eletronicoGenerico* computador = new eletronicoGenerico("Computador", 250, 1, 6.0, 30, true, 5);
 
-            case 5: {
-                string nomeComodo;
-                if (casa.getComodos().empty()) {
-                    cout << "Nenhum comodo cadastrado. Adicione um comodo primeiro.\n";
-                    break;
-                }
-                else {
-                casa.imprimirComodos();
-            
-                cout << "Digite o nome do comodo que voce deseja acessar: ";
-                cin.ignore();
-                getline(cin, nomeComodo);
-                Comodo& comodo = casa.getComodo(nomeComodo);
+    // Adiciona eletrodomésticos aos cômodos
+    sala->adicionarEletrodomestico(tv);
+    sala->adicionarEletrodomestico(ventilador);
+    sala->adicionarEletrodomestico(computador);
 
-                int opcaoComodo;
-                do {
-                    cout << "\n== Menu do comodo: " << comodo.getNome() << " ==\n";
-                    cout << "1. Exibir eletrodomesticos\n";
-                    cout << "2. Exibir consumo do comodo\n";
-                    cout << "3. Adicionar eletrodomestico\n";
-                    cout << "4. Remover eletrodomestico\n";
-                    cout << "5. Voltar ao menu principal\n";
-                    cout << "Digite o numero da opcao desejada: ";
-                    cin >> opcaoComodo;
+    quarto->adicionarEletrodomestico(gela);
 
-                    switch (opcaoComodo) {
-                        case 1: {
-                            cout << "Eletrodomesticos no comodo " << comodo.getNome() << ":\n";
-                            for (const auto& eletro : comodo.getEletrodomesticosConsumo()) {
-                                cout << eletro << endl;
-                            }
-                            break;
-                        }
+    cozinha->adicionarEletrodomestico(microondas);
 
-                        case 2:
-                           cout << "Consumo do comodo " << comodo.getNome() << ": " << comodo.calcularConsumoTotal() << " kWh\n";
-                            break;
+    // Adiciona cômodos à casa
+    casa.addComodo(sala);
+    casa.addComodo(quarto);
+    casa.addComodo(cozinha);
 
-                        case 3: {
-                            string nomeEletro;
-                            double consumo;
-                            cout << "Digite o nome do eletrodomestico: ";
-                            cin.ignore();
-                            getline(cin, nomeEletro);
-                            cout << "Digite o consumo do eletrodomestico (kWh): ";
-                            cin >> consumo;
-                            comodo.adicionarEletrodomestico(nomeEletro, consumo);
-                            cout << "Eletrodomestico adicionado com sucesso!\n";
-                            break;
-                        }
+    // Imprime os cômodos e consumos detalhados
+    casa.imprimirComodos();
 
-                        case 4: {
-                            string nomeEletro;
-                            cout << "Digite o nome do eletrodomestico que voce deseja remover: ";
-                            cin.ignore();
-                            getline(cin, nomeEletro);
-                            comodo.retirarEletrodomestico(nomeEletro);
-                            cout << "Eletrodomestico removido com sucesso!\n";
-                            break;
-                        }
+    // Mostra consumos individuais detalhados
+    cout << "\nConsumos detalhados por eletrodoméstico:\n";
+    for (const auto& comodoPtr : casa.getComodos()) {
+        cout << "No cômodo " << comodoPtr->getNome() << ":\n";
+        cout << comodoPtr->getEletrodomesticosConsumo();
+    }
 
-                        case 5:
-                            cout << "Voltando ao menu principal...\n";
-                            break;
+    auto resultado = casa.calcularConsumoComodos();
+    cout << "\nConsumo total da casa: " << resultado.first << " kWh\n";
+    cout << "Simulação de conta: R$ " << resultado.second << "\n";
 
-                        default:
-                            cout << "Opcao invalida! Tente novamente.\n";
-                            break;
-                    }
+    cout << "=== FIM DO TESTE ===\n";
 
-                } while (opcaoComodo != 5);
-
-                break;
-            }
-        }
-
-            case 6:
-                {
-                    auto simular_conta = casa.calcularConsumoComodos();
-                    cout << "Simulação de conta de energia: R$ " << simular_conta.first << "\n";
-                }
-                break;
-
-            case 7:
-                cout << "Encerrando o programa...\n";
-                break;
-
-            default:
-                cout << "Opcao invalida! Tente novamente.\n";
-                break;
-        }
-
-    } while (opcao != 7);
+    // A casa e os cômodos serão responsáveis por deletar os objetos alocados.
 }
+

@@ -7,17 +7,12 @@ geladeira::geladeira(std::string nomeInput, int potenciaInput, int quantidadeInp
                      float fatorUsoInput)
     : eletroDomestico("Geladeira",quantidadeInput, diasInput),
     potencia(potenciaInput),
-    fatorUso(fatorUsoInput),
-    kwh(0.0f)
+    fatorUso(fatorUsoInput)
 { }
 // Calcula o consumo da geladeira considerando 24h de uso por dia e o fator de uso
 float geladeira::calcKwh(){
-    kwh = (potencia * 24.0f * fatorUso * diasSimulado * quantidade)/ 1000.0f;
-    return kwh;
-}
-
-float geladeira::getKwh() const {
-    return kwh;
+    this->kwh = (potencia * 24.0f * fatorUso * diasSimulado * quantidade)/ 1000.0f;
+    return this->kwh;
 }
 
 int geladeira::getPotencia() const{

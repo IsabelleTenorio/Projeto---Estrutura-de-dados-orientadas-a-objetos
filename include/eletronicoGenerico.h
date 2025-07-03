@@ -8,7 +8,6 @@ class eletronicoGenerico :public eletroDomestico {
 private:
     int potencia;
     float horasUsadas;
-    float kwh;
     bool possuiStandby;
     float potenciaStandby;
 
@@ -22,8 +21,6 @@ public:
     float calcKwh() override;
 
     // Getters e setters
-    void setKwh(float kwhInput);
-    float getKwh() const;
     int getPotencia() const;
     int getQuantidade() const;
     float getHorasUsadas() const;

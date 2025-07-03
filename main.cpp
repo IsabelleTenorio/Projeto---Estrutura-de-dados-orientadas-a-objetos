@@ -3,6 +3,7 @@
 int main() {
     Sistema meuSistema;
     meuSistema.telaInicial();
-    meuSistema.menuPrincipal();
+    meuSistema.testarSistema();
+    //meuSistema.menuPrincipal();
     return 0;
 }

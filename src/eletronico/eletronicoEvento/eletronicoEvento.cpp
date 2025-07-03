@@ -7,8 +7,7 @@ eletroEvento::eletroEvento(std::string nomeInput, int potenciaInput, float durac
     : eletroDomestico(nomeInput, quantidadeInput, diasInput),
       potencia(potenciaInput),
       duracaoEventoMin(duracaoEventoInput),
-      eventosPorDia(eventosPorDiaInput),
-      kwh(0.0f)
+      eventosPorDia(eventosPorDiaInput)
 {
     nome = "Eletro por Evento"; // Aqui você pode definir um nome mais genérico ou manter o nomeInput
 }
@@ -17,14 +16,11 @@ eletroEvento::eletroEvento(std::string nomeInput, int potenciaInput, float durac
 // Fórmula: (potência × duração × eventos/dia × dias × quantidade) ÷ 1000
 float eletroEvento::calcKwh() {
     float duracaoHoras = duracaoEventoMin / 60.0f; // Converte minutos para horas
-    kwh = (potencia * duracaoHoras * eventosPorDia * diasSimulado * quantidade) / 1000.0f;
-    return kwh;
+    this->kwh = (potencia * duracaoHoras * eventosPorDia * diasSimulado * quantidade) / 1000.0f;
+    return this->kwh;
 }
 
 // Getters: funções que retornam os valores dos atributos privados
-float eletroEvento::getKwh() const {
-    return kwh;
-}
 
 int eletroEvento::getPotencia() const {
     return potencia;
