@@ -1,4 +1,4 @@
-#include"sistema.h"
+#include "sistema.h"
 #include <iostream>
 #include <locale.h>
 #include <vector>
@@ -19,7 +19,7 @@ void Sistema::menuPrincipal() {
         cout << "\n===== Sistema de Consumo Energetico =====\n";
         cout << "1. Listar comodos e consumo\n";
         cout << "2. Exibir consumo total da casa\n";
-        cout << "3. Adicionar novo comodo\n";
+        cout << "3. Adicionar novo cômodo\n";
         cout << "4. Excluir comodo\n";
         cout << "5. Acessar comodo\n";
         cout << "6. Acessar simulador de conta de energia\n";
