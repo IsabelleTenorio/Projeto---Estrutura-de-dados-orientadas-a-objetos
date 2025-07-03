@@ -22,7 +22,7 @@ using namespace std;
  *    Isso compila o código fonte e gera o executável.
  *
  * 4. Para executar o programa, rodar o executável gerado:
- *      ./projeto.exe  (no Windows PowerShell)
+ *      ./projeto.exe  (no Windows PowerShell) ou .\Debug\projeto.exe
  *
  * Você só precisa recompilar (passo 3) quando mudar o código fonte.
  * Para rodar várias vezes, basta executar o executável.
@@ -46,16 +46,17 @@ void Sistema::menuPrincipal() {
     int opcao;
 
     do {
-        cout << "\n===== Sistema de Consumo Energetico =====\n";
-        cout << "1. Listar comodos e consumo\n";
+        cout << "\n===== Sistema de Consumo Energético =====\n";
+        cout << "1. Listar cômodos e consumo\n";
         cout << "2. Exibir consumo total da casa\n";
-        cout << "3. Adicionar novo comodo\n";
-        cout << "4. Excluir comodo\n";
-        cout << "5. Acessar comodo\n";
+        cout << "3. Adicionar novo cômodo\n";
+        cout << "4. Excluir cômodo\n";
+        cout << "5. Acessar cômodo\n";
         cout << "6. Acessar simulador de conta de energia\n";
         cout << "7. Sair\n";
-        cout << "Digite o numero da opcao desejada: ";
+        cout << "\nDigite o número da opção desejada: ";
         cin >> opcao;
+        cout << "\n==========================================\n\n";
 
         switch (opcao) {
             case 1:
@@ -69,23 +70,24 @@ void Sistema::menuPrincipal() {
             }
 
             case 3: {
-                string nomeComodo;
+                string nomeComodo; //É possível adicionar cômodos pré-prontos
                 int tipoAdicao;
-                cout << "Escolha um comodo para ser adicionado: ";
-                cout << "1 - Banheiro \n2 - Cozinha \n3 - Quarto\n 4 - Sala\n 5 - Outro\n";
+                cout << "Escolha um cômodo para ser adicionado: \n";
+                cout << "1 - Banheiro \n2 - Cozinha \n3 - Quarto\n4 - Sala\n5 - Outro\n";
+                cout << "\nDigite o número da opção desejada: ";
                 cin >> tipoAdicao;
                 if (tipoAdicao == 1 || tipoAdicao == 2 || tipoAdicao == 3 || tipoAdicao == 4) {
                     vector<string> comodosEstaticos = {"Banheiro", "Cozinha", "Quarto", "Sala"}; //Vetor com comodos estaticos
                     nomeComodo = comodosEstaticos[tipoAdicao - 1]; //Identifica qual é o nome do comodo dentro do vetor
                     casa.addComodo(Comodo(nomeComodo));
-                    cout << "Comodo adicionado com sucesso!\n";
-                    cout << "Adicionando eletrodomesticos pre-definidos para o comodo...\n";
+                    cout << "...\nCômodo adicionado com sucesso!\n";
+                    cout << "Adicionando eletrodomésticos pré-definidos para o cômodo...\n";
                     
                     vector<vector<string>> eletronicosPreDefinidos = {{"Chuveiro", "SecadorDeCabelo", "Lampada"}, {"Geladeira", "MicroOndas", "Fogao", "Liquidificador", "Lampada"}, {"ArCondicionado", "Lampada", "Ventilador"}, {"TV", "Lampada", "Ventilador"}};
                     Comodo nomeComodo(comodosEstaticos[tipoAdicao - 1]); //Matriz de vetores que contém os nomes dos eletrodomesticos básicos de cada comodo
                     for (const auto& eletro : eletronicosPreDefinidos[tipoAdicao - 1]) { //Loop para digitar a potencia de cada eletrodomestico e adiciona-lo no comodo
                         double potencia;
-                        cout << "Digite a potencia (kwh) do eletrodomestico " << eletro << ": ";
+                        cout << "Digite a potência (kwh) do eletrodoméstico " << eletro << ": ";
                         cin >> potencia;
                         if (eletro == "Geladeira") { //Adiciona geladeira, que é um eletrodomestico que funciona diferente
                             geladeira Geladeira("Geladeira", potencia);
@@ -94,14 +96,14 @@ void Sistema::menuPrincipal() {
                             nomeComodo.adicionarEletrodomestico(eletro, potencia);
                         }
                     }
-                    cout << "Eletrodomesticos adicionados com sucesso!\n";
+                    cout << "...\nEletrodomésticos adicionados com sucesso!\n";
 
                 } else if (tipoAdicao == 5) {
-                    cout << "Digite o nome do novo comodo: ";
+                    cout << "\nDigite o nome do novo cômodo: ";
                     cin.ignore();
                     getline(cin, nomeComodo);
                     casa.addComodo(Comodo(nomeComodo));
-                    cout << "Comodo adicionado com sucesso!\n";
+                    cout << "...\nCômodo adicionado com sucesso!\n";
                 } else {
                     cout << "Opção inválida! Digite novamente uma opção válida: ";
                     cin >> tipoAdicao;
@@ -112,17 +114,17 @@ void Sistema::menuPrincipal() {
             case 4: {
                 string nomeComodo;
                 if (casa.getComodos().empty()) {
-                    cout << "Nenhum comodo cadastrado. Adicione um comodo primeiro.\n";
+                    cout << "Nenhum cômodo cadastrado. Adicione um cômodo primeiro.\n";
                     break;
                 }
                 else {
                 casa.imprimirComodos();
             
-                cout << "Digite o nome do comodo que voce deseja excluir: ";
+                cout << "Digite o nome do cômodo que você deseja excluir: ";
                 cin.ignore();
                 getline(cin, nomeComodo); // esse getline é pra casos onde o nome do comodo tem espaços
                 casa.removeComodo(nomeComodo);
-                cout << "Comodo removido com sucesso!\n";
+                cout << "Cômodo removido com sucesso!\n";
                 break;
             }
         }
@@ -130,31 +132,32 @@ void Sistema::menuPrincipal() {
             case 5: {
                 string nomeComodo;
                 if (casa.getComodos().empty()) {
-                    cout << "Nenhum comodo cadastrado. Adicione um comodo primeiro.\n";
+                    cout << "Nenhum cômodo cadastrado. Adicione um cômodo primeiro.\n";
                     break;
                 }
                 else {
                 casa.imprimirComodos();
             
-                cout << "Digite o nome do comodo que voce deseja acessar: ";
+                cout << "Digite o nome do cômodo que você deseja acessar: ";
                 cin.ignore();
                 getline(cin, nomeComodo);
                 Comodo& comodo = casa.getComodo(nomeComodo);
 
                 int opcaoComodo;
                 do {
-                    cout << "\n== Menu do comodo: " << comodo.getNome() << " ==\n";
-                    cout << "1. Exibir eletrodomesticos\n";
-                    cout << "2. Exibir consumo do comodo\n";
-                    cout << "3. Adicionar eletrodomestico\n";
-                    cout << "4. Remover eletrodomestico\n";
+                    cout << "\n== Menu do cômodo: " << comodo.getNome() << " ==\n";
+                    cout << "1. Exibir eletrodomésticos\n";
+                    cout << "2. Exibir consumo do cômodo\n";
+                    cout << "3. Adicionar eletrodoméstico\n";
+                    cout << "4. Remover eletrodoméstico\n";
                     cout << "5. Voltar ao menu principal\n";
-                    cout << "Digite o numero da opcao desejada: ";
+                    cout << "Digite o número da opção desejada: ";
                     cin >> opcaoComodo;
+                    cout << "\n==========================================\n\n";
 
                     switch (opcaoComodo) {
                         case 1: {
-                            cout << "Eletrodomesticos no comodo " << comodo.getNome() << ":\n";
+                            cout << "Eletrodomésticos no cômodo " << comodo.getNome() << ":\n";
                             for (const auto& eletro : comodo.getEletrodomesticosConsumo()) {
                                 cout << eletro << endl;
                             }
@@ -162,29 +165,29 @@ void Sistema::menuPrincipal() {
                         }
 
                         case 2:
-                           cout << "Consumo do comodo " << comodo.getNome() << ": " << comodo.calcularConsumoTotal() << " kWh\n";
+                           cout << "Consumo do cômodo " << comodo.getNome() << ": " << comodo.calcularConsumoTotal() << " kWh\n";
                             break;
 
                         case 3: {
                             string nomeEletro;
                             double consumo;
-                            cout << "Digite o nome do eletrodomestico: ";
+                            cout << "Digite o nome do eletrodoméstico: ";
                             cin.ignore();
                             getline(cin, nomeEletro);
-                            cout << "Digite o consumo do eletrodomestico (kWh): ";
+                            cout << "Digite o consumo do eletrodoméstico (kWh): ";
                             cin >> consumo;
                             comodo.adicionarEletrodomestico(nomeEletro, consumo);
-                            cout << "Eletrodomestico adicionado com sucesso!\n";
+                            cout << "...\nEletrodoméstico adicionado com sucesso!\n";
                             break;
                         }
 
                         case 4: {
                             string nomeEletro;
-                            cout << "Digite o nome do eletrodomestico que voce deseja remover: ";
+                            cout << "Digite o nome do eletrodoméstico que voce deseja remover: ";
                             cin.ignore();
                             getline(cin, nomeEletro);
                             comodo.retirarEletrodomestico(nomeEletro);
-                            cout << "Eletrodomestico removido com sucesso!\n";
+                            cout << "...\nEletrodoméstico removido com sucesso!\n";
                             break;
                         }
 
@@ -193,7 +196,7 @@ void Sistema::menuPrincipal() {
                             break;
 
                         default:
-                            cout << "Opcao invalida! Tente novamente.\n";
+                            cout << "Opção inválida! Tente novamente.\n";
                             break;
                     }
 
@@ -215,7 +218,7 @@ void Sistema::menuPrincipal() {
                 break;
 
             default:
-                cout << "Opcao invalida! Tente novamente.\n";
+                cout << "Opção inválida! Tente novamente.\n";
                 break;
         }
 
