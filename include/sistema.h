@@ -11,7 +11,6 @@ class Sistema {
     public:
     Sistema();
     void telaInicial();
-    void testarSistema();
 
 };
 
