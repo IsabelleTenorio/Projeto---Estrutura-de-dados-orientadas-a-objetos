@@ -40,6 +40,16 @@ Comodo& Casa::getComodo(const std::string& nome) {
 
 }
 
+bool Casa::temComodo(const std::string& nome) const {
+    for (const auto& comodo : comodos) {
+        if (comodo->getNome() == nome) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
 const std::vector<Comodo*>& Casa::getComodos() const {
     return comodos; 
 }
