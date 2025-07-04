@@ -1,4 +1,4 @@
-# Sistema de consumo energético
+# Sistema de consumo energético | CINergy
 Este projeto foi desenvolvido para a disciplina Estrutura de Dados Orientadas a Objetos do curso de Sistemas de Informação (CIN - UFPE), ministrada pelo professor Francisco Paulo Magalhães, com o objetivo de aplicar conceitos de programação orientada a objetos em C++ aprendidos durantes as aulas, como herança, polimorfismo e encapsulamento.
 
 ## Sobre
