@@ -1,4 +1,4 @@
-# Sistema de consumo energético | CINergy
+# Sistema de consumo energético
 Este projeto foi desenvolvido para a disciplina Estrutura de Dados Orientadas a Objetos do curso de Sistemas de Informação (CIN - UFPE), ministrada pelo professor Francisco Paulo Magalhães, com o objetivo de aplicar conceitos de programação orientada a objetos em C++ aprendidos durantes as aulas, como herança, polimorfismo e encapsulamento.
 
 ## Sobre
@@ -6,8 +6,8 @@ O objetivo deste projeto é simular o gasto energético de uma casa com diferent
 
 ## Funcionalidades
 - Menu de instruções inicial.
-- Acessar, adicionar e excluir cômodos dentro da casa.
-- Acessar, adicionar e excluir eletrodomésticos dentro de um cômodo (há um menu de instruções secundário para acessar os eletrodomésticos de um cômodo e as informações dele).
+- Acessar, adicionar (apenas pré-definidos) e excluir cômodos dentro da casa.
+- Acessar, adicionar (apenas pré-definidos) e excluir eletrodomésticos dentro de um cômodo (há um menu de instruções secundário para acessar os eletrodomésticos de um cômodo e as informações dele).
 - Listar cada cômodo e seu consumo.
 - Simular conta de energia.
 - Exibir consumo total da casa.
