@@ -21,28 +21,14 @@ void Comodo::retirarEletrodomestico(const string& nomeEletro) {
 
 double Comodo::calcularConsumoTotal() const {
     double total = 0.0;
-    std::cout << ">> Entrando em calcularConsumoTotal()" << std::endl;
     for (const auto& par : eletrodomesticos) {
-    std::cout << "   - Calculando: " << par.first << std::endl;
-    if (par.second == nullptr) {
-        std::cout << "   [ERRO] Ponteiro nulo para " << par.first << std::endl;
-        continue;
+        if (par.second == nullptr) {
+            continue;
+        }
+        total += par.second->calcKwh();
     }
-
-    if (dynamic_cast<eletronicoGenerico*>(par.second)) {
-        std::cout << "   [DEBUG] É um eletronicoGenerico" << std::endl;
-    } else if (dynamic_cast<geladeira*>(par.second)) {
-        std::cout << "   [DEBUG] É uma geladeira" << std::endl;
-    } else {
-        std::cout << "   [DEBUG] É um eletroDomestico genérico ou outro tipo" << std::endl;
-    }
-    
-    total += par.second->calcKwh();
-}
-
     return total;
 }
-
 
 string Comodo::getNome() const {
     return nome;

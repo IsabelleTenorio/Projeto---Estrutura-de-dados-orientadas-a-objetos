@@ -8,6 +8,7 @@
 #include "casa.h"
 #include <string>
 #include "eletroDomestico.h"
+#include "eletronicoEvento.h"
 
 using namespace std;
 
@@ -137,8 +138,18 @@ void Sistema::testarSistema(){
 }
 
 void Sistema::menuPrincipal() {
+    {
     setlocale(LC_ALL,"pt_BR.UTF-8");
     int opcao;
+
+    float dias = 0;
+    do{
+    cout << "Quantida de dias: ";
+    cin >> dias;
+    if (dias < 1){
+        cout << "Digite dias validos. ";
+    }
+    }while (dias<1);
 
     do {
         cout << "\n===== Sistema de Consumo Energético =====\n";
@@ -148,7 +159,8 @@ void Sistema::menuPrincipal() {
         cout << "4. Excluir cômodo\n";
         cout << "5. Acessar cômodo\n";
         cout << "6. Acessar simulador de conta de energia\n";
-        cout << "7. Sair\n";
+        cout << "7 Listar o raking de cômodos por Consumo\n";
+        cout << "8. Sair\n";
         cout << "\nDigite o número da opção desejada: ";
         cin >> opcao;
         cout << "\n==========================================\n\n";
@@ -165,43 +177,232 @@ void Sistema::menuPrincipal() {
             }
 
             case 3: {
-                string nomeComodo; //É possível adicionar cômodos pré-prontos
-                int tipoAdicao;
-                cout << "Escolha um cômodo para ser adicionado: \n";
-                cout << "1 - Banheiro \n2 - Cozinha \n3 - Quarto\n4 - Sala\n5 - Outro\n";
-                cout << "\nDigite o número da opção desejada: ";
-                cin >> tipoAdicao;
-                if (tipoAdicao == 1 || tipoAdicao == 2 || tipoAdicao == 3 || tipoAdicao == 4) {
-                    vector<string> comodosEstaticos = {"Banheiro", "Cozinha", "Quarto", "Sala"}; //Vetor com comodos estaticos
-                    nomeComodo = comodosEstaticos[tipoAdicao - 1]; //Identifica qual é o nome do comodo dentro do vetor
-                    casa.addComodo(Comodo(nomeComodo));
-                    cout << "...\nCômodo adicionado com sucesso!\n";
-                    cout << "Adicionando eletrodomésticos pré-definidos para o cômodo...\n";
-                    
-                    vector<vector<string>> eletronicosPreDefinidos = {{"Chuveiro", "SecadorDeCabelo", "Lampada"}, {"Geladeira", "MicroOndas", "Fogao", "Liquidificador", "Lampada"}, {"ArCondicionado", "Lampada", "Ventilador"}, {"TV", "Lampada", "Ventilador"}};
-                    Comodo nomeComodo(comodosEstaticos[tipoAdicao - 1]); //Matriz de vetores que contém os nomes dos eletrodomesticos básicos de cada comodo
-                    for (const auto& eletro : eletronicosPreDefinidos[tipoAdicao - 1]) { //Loop para digitar a potencia de cada eletrodomestico e adiciona-lo no comodo
-                        double potencia;
-                        cout << "Digite a potência (kwh) do eletrodoméstico " << eletro << ": ";
-                        cin >> potencia;
-                        if (eletro == "Geladeira") { //Adiciona geladeira, que é um eletrodomestico que funciona diferente
-                            geladeira Geladeira("Geladeira", potencia);
-                            nomeComodo.adicionarEletrodomestico(eletro, potencia);
-                        } else {
-                            nomeComodo.adicionarEletrodomestico(eletro, potencia);
-                        }
-                    }
-                    cout << "...\nEletrodomésticos adicionados com sucesso!\n";
+                
+                cout << "Escolha o cômodo que deseja adicionar:\n";
+                cout << "1. Banheiro\n2. Cozinha\n3. Quarto\n4. Sala\n5. Iluminação\n6. Lavandeiria\n";
+                int tipo;
+                cin >> tipo;
 
-                } else if (tipoAdicao == 5) {
-                    cout << "\nDigite o nome do novo cômodo: ";
-                    cin.ignore();
-                    getline(cin, nomeComodo);
-                    casa.addComodo(Comodo(nomeComodo));
-                    cout << "...\nCômodo adicionado com sucesso!\n";
-                } else {
-                    cout << "Opção inválida! Digite novamente uma opção válida: ";
-                    cin >> tipoAdicao;
+                Comodo* novoComodo = nullptr;
+
+                switch(tipo) {
+                    case 1: {
+                        novoComodo = new Comodo("Banheiro");
+
+                        int potencia, quantidade;
+                        float minutos;
+                        int vezesPorDia;
+
+                        cout << "Chuveiro:\n";
+                        cout << "Potência (W): "; cin >> potencia;
+                        cout << "Quantidade: "; cin >> quantidade;
+                        cout << "Minutos por uso: "; cin >> minutos;
+                        cout << "Quantas vezes por dia: "; cin >> vezesPorDia;
+
+                        novoComodo->adicionarEletrodomestico(new eletroEvento("Chuveiro", potencia, minutos, vezesPorDia, dias, quantidade));
+
+                        break;
+                    }
+                    case 2: {
+                        novoComodo = new Comodo("Cozinha");
+                        int potencia, quantidade;
+                        float fatorUso;
+                        cout << "Geladeira:\n";
+                        cout << "Potência (W): "; cin >> potencia;
+                        cout << "Quantidade: "; cin >> quantidade;
+                        cout << "Fator de uso (ex: 0.8): "; cin >> fatorUso;
+                        novoComodo->adicionarEletrodomestico(new geladeira("Geladeira", potencia, quantidade, dias, fatorUso));
+                        
+                        float horas;
+                        bool standby;
+                        float standbyPotencia;
+
+                        cout << "Fogão Elétrico:\n";
+                        cout << "Potência (W): "; cin >> potencia;
+                        cout << "Quantidade: "; cin >> quantidade;
+                        cout << "Horas por dia: "; cin >> horas;
+                        cout << "Possui standby (1=sim, 0=não): "; cin >> standby;
+                        if (standby) {
+                            cout << "Potência standby (W): ";
+                            cin >> standbyPotencia;
+                        } else standbyPotencia = 0;
+
+                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Fogão Elétrico", potencia, quantidade, horas, dias, standby, standbyPotencia));
+                        
+                        float minutos;
+                        int vezesPorDia;
+
+                        cout << "Micro-ondas:\n";
+                        cout << "Potência (W): "; cin >> potencia;
+                        cout << "Quantidade: "; cin >> quantidade;
+                        cout << "Minutos por uso: "; cin >> minutos;
+                        cout << "Quantas vezes por dia: "; cin >> vezesPorDia;
+
+                        novoComodo->adicionarEletrodomestico(new eletroEvento("Micro-ondas", potencia, minutos, vezesPorDia, dias, quantidade));
+
+                        cout << "Liquidificador:\n";
+                        cout << "Potência (W): "; cin >> potencia;
+                        cout << "Quantidade: "; cin >> quantidade;
+                        cout << "Minutos por uso: "; cin >> minutos;
+                        cout << "Quantas vezes por dia: "; cin >> vezesPorDia;
+
+                        novoComodo->adicionarEletrodomestico(new eletroEvento("Liquidificador", potencia, minutos, vezesPorDia, dias, quantidade));
+
+                        cout << "Cafeteira elétrica:\n";
+                        cout << "Potência (W): "; cin >> potencia;
+                        cout << "Quantidade: "; cin >> quantidade;
+                        cout << "Minutos por uso: "; cin >> minutos;
+                        cout << "Quantas vezes por dia: "; cin >> vezesPorDia;
+
+                        novoComodo->adicionarEletrodomestico(new eletroEvento("Cafeteira elétrica", potencia, minutos, vezesPorDia, dias, quantidade));
+
+                        cout << "Torradeira:\n";
+                        cout << "Potência (W): "; cin >> potencia;
+                        cout << "Quantidade: "; cin >> quantidade;
+                        cout << "Minutos por uso: "; cin >> minutos;
+                        cout << "Quantas vezes por dia: "; cin >> vezesPorDia;
+
+                        novoComodo->adicionarEletrodomestico(new eletroEvento("Torradeira", potencia, minutos, vezesPorDia, dias, quantidade));
+
+                        break;
+                    }
+                    case 3: {
+                        novoComodo = new Comodo("Quarto");
+                        int potencia, quantidade;
+                        float horas;
+                        bool standby;
+                        float standbyPotencia;
+                        cout << "Ventilador:\n";
+                        cout << "Potência (W): "; cin >> potencia;
+                        cout << "Quantidade: "; cin >> quantidade;
+                        cout << "Horas por dia: "; cin >> horas;
+                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Ventilador", potencia, quantidade, horas, dias, false, 0));
+                        
+                        cout << "Computador\n";
+                        cout << "Potência (W): "; cin >> potencia;
+                        cout << "Quantidade: "; cin >> quantidade;
+                        cout << "Horas por dia: "; cin >> horas;
+                        cout << "Possui standby (1=sim, 0=não): "; cin >> standby;
+                        if (standby) {
+                            cout << "Potência standby (W): ";
+                            cin >> standbyPotencia;
+                        } else standbyPotencia = 0;
+                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Computador", potencia, quantidade, horas, dias, standby, standbyPotencia ));
+                        
+                        cout << "Televisor\n";
+                        cout << "Potência (W): "; cin >> potencia;
+                        cout << "Quantidade: "; cin >> quantidade;
+                        cout << "Horas por dia: "; cin >> horas;
+                        cout << "Possui standby (1=sim, 0=não): "; cin >> standby;
+                        if (standby) {
+                            cout << "Potência standby (W): ";
+                            cin >> standbyPotencia;
+                        } else standbyPotencia = 0;
+                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Televisor", potencia, quantidade, horas, dias, standby, standbyPotencia));
+                        
+                        cout << "Ar-condicionado\n";
+                        cout << "Potência (W): "; cin >> potencia;
+                        cout << "Quantidade: "; cin >> quantidade;
+                        cout << "Horas por dia: "; cin >> horas;
+                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Ar-condicionado", potencia, quantidade, horas, dias, false, 0));
+                        
+
+                        break;
+                    }
+                    case 4: {
+                        novoComodo = new Comodo("Sala");
+                        int potencia, quantidade;
+                        float horas;
+                        bool standby;
+                        float standbyPotencia;
+
+                        cout << "TV:\n";
+                        cout << "Potência (W): "; cin >> potencia;
+                        cout << "Quantidade: "; cin >> quantidade;
+                        cout << "Horas por dia: "; cin >> horas;
+                        cout << "Possui standby (1=sim, 0=não): "; cin >> standby;
+                        if (standby) {
+                            cout << "Potência standby (W): ";
+                            cin >> standbyPotencia;
+                        } else standbyPotencia = 0;
+
+                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("TV", potencia, quantidade, horas, dias, standby, standbyPotencia));
+                        
+                        cout << "Ar-condicionado:\n";
+                        cout << "Potência (W): "; cin >> potencia;
+                        cout << "Quantidade: "; cin >> quantidade;
+                        cout << "Horas por dia: "; cin >> horas;
+
+                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Ar-condicionado", potencia, quantidade, horas, dias, false, 0));
+                        
+                        cout << "Ventilador:\n";
+                        cout << "Potência (W): "; cin >> potencia;
+                        cout << "Quantidade: "; cin >> quantidade;
+                        cout << "Horas por dia: "; cin >> horas;
+
+                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Ventilador", potencia, quantidade, horas, dias, false, 0));
+                        
+                        cout << "Videogame\n";
+                        cout << "Potência (W): "; cin >> potencia;
+                        cout << "Quantidade: "; cin >> quantidade;
+                        cout << "Horas por dia: "; cin >> horas;
+                        cout << "Possui standby (1=sim, 0=não): "; cin >> standby;
+                        if (standby) {
+                            cout << "Potência standby (W): ";
+                            cin >> standbyPotencia;
+                        } else standbyPotencia = 0;
+
+                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Videogame", potencia, quantidade, horas, dias, standby, standbyPotencia));
+                        
+
+                        break;
+                    }
+                    case 5: {
+                        novoComodo = new Comodo("Iluminação");
+                        int potencia, quantidade, dias;
+                        float horas;
+                        bool standby;
+                        float standbyPotencia;
+
+                        cout << "Lampada:\n";
+                        cout << "Potência (W): "; cin >> potencia;
+                        cout << "Quantidade: "; cin >> quantidade;
+                        cout << "Horas por dia: "; cin >> horas;
+                        standby = false; standbyPotencia = 0;
+                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Luzes", potencia, quantidade, horas, dias, standby, standbyPotencia));
+                        break;
+
+                    }
+                    case 6: {
+                        novoComodo = new Comodo("Lavandeiria");
+                        int potencia, quantidade, dias;
+                        float horas;
+                        bool standby;
+                        float standbyPotencia;
+
+                        cout << "Máquina de lavar:\n";
+                        cout << "Potência (W): "; cin >> potencia;
+                        cout << "Quantidade: "; cin >> quantidade;
+                        cout << "Horas por dia: "; cin >> horas;
+                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Máquina de Lavar", potencia, quantidade, horas, dias, false, 0));
+
+                        cout << "Secadora:\n";
+                        cout << "Potência (W): "; cin >> potencia;
+                        cout << "Quantidade: "; cin >> quantidade;
+                        cout << "Horas por dia: "; cin >> horas;
+                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Secadora", potencia, quantidade, horas, dias, false, 0));
+                        
+                        break;
+
+                    }
+                    default:
+                        cout << "Opção inválida.\n";
+                        break;
+                }
+
+                if (novoComodo != nullptr) {
+                    casa.addComodo(novoComodo);
+                    cout << "\nCômodo e eletrodomésticos adicionados com sucesso!\n";
                 }
                 break;
             }
@@ -212,17 +413,14 @@ void Sistema::menuPrincipal() {
                     cout << "Nenhum cômodo cadastrado. Adicione um cômodo primeiro.\n";
                     break;
                 }
-                else {
                 casa.imprimirComodos();
-            
                 cout << "Digite o nome do cômodo que você deseja excluir: ";
                 cin.ignore();
-                getline(cin, nomeComodo); // esse getline é pra casos onde o nome do comodo tem espaços
+                getline(cin, nomeComodo);
                 casa.removeComodo(nomeComodo);
                 cout << "Cômodo removido com sucesso!\n";
                 break;
             }
-        }
 
             case 5: {
                 string nomeComodo;
@@ -230,9 +428,7 @@ void Sistema::menuPrincipal() {
                     cout << "Nenhum cômodo cadastrado. Adicione um cômodo primeiro.\n";
                     break;
                 }
-                else {
                 casa.imprimirComodos();
-            
                 cout << "Digite o nome do cômodo que você deseja acessar: ";
                 cin.ignore();
                 getline(cin, nomeComodo);
@@ -251,64 +447,47 @@ void Sistema::menuPrincipal() {
                     cout << "\n==========================================\n\n";
 
                     switch (opcaoComodo) {
-                        case 1: {
-                            cout << "Eletrodomésticos no cômodo " << comodo.getNome() << ":\n";
-                            for (const auto& eletro : comodo.getEletrodomesticosConsumo()) {
-                                cout << eletro << endl;
-                            }
+                        case 1:
+                            cout << comodo.getEletrodomesticosConsumo();
                             break;
-                        }
-
                         case 2:
-                           cout << "Consumo do cômodo " << comodo.getNome() << ": " << comodo.calcularConsumoTotal() << " kWh\n";
+                            cout << "Consumo do cômodo " << comodo.getNome() << ": " << comodo.calcularConsumoTotal() << " kWh\n";
                             break;
-
-                        case 3: {
-                            string nomeEletro;
-                            double consumo;
-                            cout << "Digite o nome do eletrodoméstico: ";
-                            cin.ignore();
-                            getline(cin, nomeEletro);
-                            cout << "Digite o consumo do eletrodoméstico (kWh): ";
-                            cin >> consumo;
-                            comodo.adicionarEletrodomestico(nomeEletro, consumo);
-                            cout << "...\nEletrodoméstico adicionado com sucesso!\n";
+                        case 3:
+                            cout << "Adição manual desativada neste modo.\n";
                             break;
-                        }
-
                         case 4: {
                             string nomeEletro;
                             cout << "Digite o nome do eletrodoméstico que voce deseja remover: ";
                             cin.ignore();
                             getline(cin, nomeEletro);
                             comodo.retirarEletrodomestico(nomeEletro);
-                            cout << "...\nEletrodoméstico removido com sucesso!\n";
+                            cout << "Eletrodoméstico removido com sucesso!\n";
                             break;
                         }
-
                         case 5:
                             cout << "Voltando ao menu principal...\n";
                             break;
-
                         default:
                             cout << "Opção inválida! Tente novamente.\n";
                             break;
                     }
-
                 } while (opcaoComodo != 5);
-
                 break;
             }
-        }
 
-            case 6:
-                {
-                    auto simular_conta = casa.calcularConsumoComodos();
-                    cout << "Simulação de conta de energia: R$ " << simular_conta.first << "\n";
-                }
+            case 6: {
+                auto simular_conta = casa.calcularConsumoComodos();
+                cout << "Simulação de conta de energia: R$ " << simular_conta.first << "\n";
                 break;
+            }
 
-            case 7:
+            case 7: {
+                casa.exibirComodosPorConsumo();
+                break;
+            }
+
+            case 8:
                 cout << "Encerrando o programa...\n";
                 break;
 
@@ -317,5 +496,6 @@ void Sistema::menuPrincipal() {
                 break;
         }
 
-    } while (opcao != 7);
+    } while (opcao != 8);
+}
 }

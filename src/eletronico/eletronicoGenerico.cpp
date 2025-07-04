@@ -1,8 +1,9 @@
 #include "eletronicoGenerico.h"
 #include <string>
 #include <iostream>
+#include <typeinfo>
 
-// Construtor usando member initializer list é mais eficiente
+// Construtor usando member initializer list é mais eficiente                   quantidade de eletrodomesticos (ex: adicionar 2 geladeiras)
 eletronicoGenerico::eletronicoGenerico(std::string nomeInput,int potenciaInput, int quantidadeInput, float horasInput, int diasInput, bool possuiStandbyInput, float potenciaStandbyInput)
     :   eletroDomestico(nomeInput,quantidadeInput, diasInput),
         potencia(potenciaInput),
@@ -12,10 +13,6 @@ eletronicoGenerico::eletronicoGenerico(std::string nomeInput,int potenciaInput, 
 { }
 
 float eletronicoGenerico::calcKwh() {
-    std::cout << "[DEBUG] calcKwh chamado em tipo: " << typeid(*this).name() << std::endl;    
-    std::cout << "      > Entrando em calcKwh() de " << nome << std::endl;
-    std::cout << "      > potencia: " << potencia << ", horas: " << horasUsadas
-              << ", dias: " << diasSimulado << ", qtd: " << quantidade << std::endl;
     float consumoAtivo = (potencia * horasUsadas * diasSimulado * quantidade) / 1000.0f;
     float consumoStandby = 0.0f;
 
@@ -27,6 +24,7 @@ float eletronicoGenerico::calcKwh() {
     this->kwh = consumoAtivo + consumoStandby;
     return this->kwh;
 }
+
 
 int eletronicoGenerico::getPotencia() const {
     return potencia;

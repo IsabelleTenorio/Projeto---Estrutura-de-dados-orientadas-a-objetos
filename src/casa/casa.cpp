@@ -1,6 +1,8 @@
 #include "casa.h"
 #include <iostream>
 #include <iomanip> // pra formatar a saída do float
+#include <algorithm>
+#include <vector>
 
 
 void Casa::addComodo(Comodo* comodo) {
@@ -44,11 +46,31 @@ const std::vector<Comodo*>& Casa::getComodos() const {
 
 void Casa::imprimirComodos() const {
     for (const auto& comodo : comodos) {
-        std::cout << ">> Calculando consumo do comodo: " << comodo->getNome() << std::endl;
+        std::cout << "Calculando consumo do comodo: " << comodo->getNome() << std::endl;
         std::cout << comodo->getNome() << ": " << std::fixed << std::setprecision(2)
                   << comodo->calcularConsumoTotal() << " kWh" << std::endl;
     }
 }
+
+void Casa::exibirComodosPorConsumo() const {
+    vector<pair<string, float>> consumoComodos;
+
+    for (const auto& comodo : comodos) {
+        consumoComodos.emplace_back(comodo->getNome(), comodo->calcularConsumoTotal());
+    }
+
+    sort(consumoComodos.begin(), consumoComodos.end(),
+         [](const pair<string, float>& a, const pair<string, float>& b) {
+             return a.second > b.second; // ordem decrescente
+         });
+
+    cout << "\n--- Ranking de Cômodos por Consumo ---\n";
+    for (const auto& par : consumoComodos) {
+        cout << par.first << ": " << par.second << " kWh\n";
+    }
+}
+
+
 
 Casa::~Casa() {
     for (auto comodo : comodos) {
