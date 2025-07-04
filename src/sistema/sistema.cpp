@@ -492,7 +492,7 @@ void Sistema::menuPrincipal() {
 
             case 6: {
                 auto simular_conta = casa.calcularConsumoComodos();
-                cout << "Simulação de conta de energia: R$ " << simular_conta.first << "\n";
+                cout << "Simulação de conta de energia: R$ " << simular_conta.second << "\n";
                 break;
             }
 
