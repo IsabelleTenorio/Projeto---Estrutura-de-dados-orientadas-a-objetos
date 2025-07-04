@@ -12,6 +12,7 @@ class Sistema {
     Sistema();
     void telaInicial();
     void testarSistema();
+    void menuPrincipal();
 
 };
 

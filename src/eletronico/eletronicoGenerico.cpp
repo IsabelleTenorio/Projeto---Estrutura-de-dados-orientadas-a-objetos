@@ -13,10 +13,6 @@ eletronicoGenerico::eletronicoGenerico(std::string nomeInput,int potenciaInput, 
 { }
 
 float eletronicoGenerico::calcKwh() {
-    std::cout << "[DEBUG] calcKwh chamado em tipo: " << typeid(*this).name() << std::endl;    
-    std::cout << "      > Entrando em calcKwh() de " << nome << std::endl;
-    std::cout << "      > potencia: " << potencia << ", horas: " << horasUsadas
-              << ", dias: " << diasSimulado << ", qtd: " << quantidade << std::endl;
     float consumoAtivo = (potencia * horasUsadas * diasSimulado * quantidade) / 1000.0f;
     float consumoStandby = 0.0f;
 
@@ -28,6 +24,7 @@ float eletronicoGenerico::calcKwh() {
     this->kwh = consumoAtivo + consumoStandby;
     return this->kwh;
 }
+
 
 int eletronicoGenerico::getPotencia() const {
     return potencia;
