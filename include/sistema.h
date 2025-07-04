@@ -11,8 +11,13 @@ class Sistema {
     public:
     Sistema();
     void telaInicial();
-    void testarSistema();
     void menuPrincipal();
+
+    static int lerInteiroPositivo(const string& mensagem);
+    static float lerFloatPositivo(const string& mensagem);
+    static bool desejaAdcionar(const int booleano);
+    static int lerBooleano(const string& mensagem);
+
 
 };
 

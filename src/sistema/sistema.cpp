@@ -9,6 +9,8 @@
 #include <string>
 #include "eletroDomestico.h"
 #include "eletronicoEvento.h"
+#include <limits>
+
 
 using namespace std;
 
@@ -41,6 +43,71 @@ using namespace std;
 
 Sistema::Sistema() {}
 
+int Sistema::lerInteiroPositivo(const string& mensagem) {
+    int valor;
+    do {
+        cout << mensagem;
+        cin >> valor;
+
+        if (cin.fail()) {
+            cin.clear(); // limpa o erro
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // descarta entrada inválida
+            cout << "Entrada inválida. Digite um número inteiro positivo.\n";
+            continue;
+        }
+
+        if (valor <= 0) {
+            cout << "Valor inválido. Digite um número positivo.\n";
+        }
+    } while (valor <= 0);
+    return valor;
+}
+
+float Sistema::lerFloatPositivo(const string& mensagem) {
+    float valor;
+    do {
+        cout << mensagem;
+        cin >> valor;
+
+        if (cin.fail()) {
+            cin.clear(); // limpa o erro
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // descarta entrada inválida
+            cout << "Entrada inválida. Digite um número inteiro positivo.\n";
+            continue;
+        }
+
+        if (valor <= 0.0f) {
+            cout << "Valor inválido. Digite um número positivo.\n";
+        }
+    } while (valor <= 0.0f);
+    return valor;
+}
+
+
+bool Sistema::desejaAdcionar(const int booleano){
+    return booleano == 1;
+}
+
+int Sistema::lerBooleano(const string& mensagem) {
+    int valor;
+    do {
+        cout << mensagem;
+        cin >> valor;
+
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Entrada inválida. Digite 1 para sim ou 0 para não.\n";
+            continue;
+        }
+
+        if (valor != 0 && valor != 1) {
+            cout << "Valor inválido. Digite 1 (sim) ou 0 (não).\n";
+        }
+
+    } while (valor != 0 && valor != 1);
+    return valor;
+}
 
 void Sistema::telaInicial() {
     setlocale(LC_ALL,"pt_BR.UTF-8");
@@ -48,108 +115,12 @@ void Sistema::telaInicial() {
 }
 
 
-
-
-void Sistema::testarSistema(){
-
-/*
- * Criação e uso dos cômodos no sistema:
- *
- * 1. Cada cômodo é representado pela classe `Comodo`, que armazena um nome 
- *    (ex: "Sala", "Quarto") e uma coleção de eletrodomésticos associados a ele.
- *
- * 2. Para criar um cômodo, usamos o construtor da classe `Comodo` passando o nome:
- *      Comodo* sala = new Comodo("Sala");
- *
- * 3. Eletrodomésticos são criados dinamicamente, como objetos de subclasses de 
- *    `eletroDomestico` (ex: `eletronicoGenerico`, `geladeira`), e depois adicionados
- *    ao cômodo usando o método:
- *      sala->adicionarEletrodomestico(eletro);
- *    Isso registra o eletrodoméstico no mapa interno do cômodo, usando o nome como chave.
- *
- * 4. A classe `Casa` mantém uma lista de ponteiros para `Comodo`, representando todos
- *    os cômodos da casa. Para adicionar um cômodo à casa, chamamos:
- *      casa.addComodo(sala);
- *
- * 5. O sistema usa polimorfismo para calcular o consumo total de cada cômodo. Quando
- *    pedimos para o cômodo calcular seu consumo (`sala->calcularConsumoTotal()`), 
- *    ele percorre todos os eletrodomésticos registrados e chama o método `calcKwh()` 
- *    apropriado para cada tipo, somando tudo.
- *
- * 6. Ao final, a `Casa` consegue calcular o consumo total da residência somando o 
- *    consumo de todos os cômodos.
- *
- * 7. Importante: como usamos alocação dinâmica (`new`), a casa e os cômodos são 
- *    responsáveis por liberar a memória com `delete` para evitar vazamentos.
- *
- * Resumo:
- * - Criamos cômodos dinamicamente com `new Comodo("Nome")`.
- * - Criamos eletrodomésticos e adicionamos aos cômodos.
- * - Adicionamos os cômodos à casa.
- * - Calculamos consumo chamando métodos polimórficos que somam os consumos.
- * - Gerenciamos memória deletando os objetos criados.
- */
-
-    cout << "\n=== INÍCIO DO TESTE DO SISTEMA ===\n";
-
-    // Cria cômodos dinamicamente
-    Comodo* sala = new Comodo("Sala");
-    Comodo* quarto = new Comodo("Quarto");
-    Comodo* cozinha = new Comodo("Cozinha");
-
-    // Cria eletrodomésticos de diferentes tipos
-    eletronicoGenerico* tv = new eletronicoGenerico("TV", 120, 1, 5.0, 30);
-    eletronicoGenerico* ventilador = new eletronicoGenerico("Ventilador", 80, 1, 8.0, 30);
-    geladeira* gela = new geladeira("Geladeira", 300, 1, 30, 0.8);
-    eletronicoGenerico* microondas = new eletronicoGenerico("Micro-ondas", 1100, 1, 0.5, 30);
-    eletronicoGenerico* computador = new eletronicoGenerico("Computador", 250, 1, 6.0, 30, true, 5);
-
-    // Adiciona eletrodomésticos aos cômodos
-    sala->adicionarEletrodomestico(tv);
-    sala->adicionarEletrodomestico(ventilador);
-    sala->adicionarEletrodomestico(computador);
-
-    quarto->adicionarEletrodomestico(gela);
-
-    cozinha->adicionarEletrodomestico(microondas);
-
-    // Adiciona cômodos à casa
-    casa.addComodo(sala);
-    casa.addComodo(quarto);
-    casa.addComodo(cozinha);
-
-    // Imprime os cômodos e consumos detalhados
-    casa.imprimirComodos();
-
-    // Mostra consumos individuais detalhados
-    cout << "\nConsumos detalhados por eletrodoméstico:\n";
-    for (const auto& comodoPtr : casa.getComodos()) {
-        cout << "No cômodo " << comodoPtr->getNome() << ":\n";
-        cout << comodoPtr->getEletrodomesticosConsumo();
-    }
-
-    auto resultado = casa.calcularConsumoComodos();
-    cout << "\nConsumo total da casa: " << resultado.first << " kWh\n";
-    cout << "Simulação de conta: R$ " << resultado.second << "\n";
-
-    cout << "=== FIM DO TESTE ===\n";
-
-    // A casa e os cômodos serão responsáveis por deletar os objetos alocados.
-}
-
 void Sistema::menuPrincipal() {
     {
     setlocale(LC_ALL,"pt_BR.UTF-8");
     int opcao;
 
-    float dias = 0;
-    do{
-    cout << "Quantida de dias: ";
-    cin >> dias;
-    if (dias < 1){
-        cout << "Digite dias validos. ";
-    }
-    }while (dias<1);
+    float dias = Sistema::lerFloatPositivo("Quantidade de dias: ");
 
     do {
         cout << "\n===== Sistema de Consumo Energético =====\n";
@@ -163,6 +134,14 @@ void Sistema::menuPrincipal() {
         cout << "8. Sair\n";
         cout << "\nDigite o número da opção desejada: ";
         cin >> opcao;
+
+        if (cin.fail()) {
+        cin.clear(); // limpa o estado de erro
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // ignora entrada inválida
+        cout << "Entrada inválida! Por favor, digite um número entre 1 e 8.\n";
+        continue;
+    }
+
         cout << "\n==========================================\n\n";
 
         switch (opcao) {
@@ -179,221 +158,254 @@ void Sistema::menuPrincipal() {
             case 3: {
                 
                 cout << "Escolha o cômodo que deseja adicionar:\n";
-                cout << "1. Banheiro\n2. Cozinha\n3. Quarto\n4. Sala\n5. Iluminação\n6. Lavandeiria\n";
+                cout << "1. Banheiro\n2. Cozinha\n3. Quarto\n4. Sala\n5. Iluminação\n6. Lavandeiria\n7. Voltar ao Menu Principal\n";
                 int tipo;
+
                 cin >> tipo;
+                if (cin.fail()) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Entrada inválida! Digite um número válido para o tipo de cômodo.\n";
+                    break;
+}
+
 
                 Comodo* novoComodo = nullptr;
 
                 switch(tipo) {
                     case 1: {
+                        if (casa.temComodo("Banheiro")) {
+                            cout << "Já existe um cômodo chamado Banheiro. Não é possível adicionar novamente.\n";
+                            break;
+                        }
+                        int booleanoInput;
                         novoComodo = new Comodo("Banheiro");
-
-                        int potencia, quantidade;
-                        float minutos;
-                        int vezesPorDia;
-
-                        cout << "Chuveiro:\n";
-                        cout << "Potência (W): "; cin >> potencia;
-                        cout << "Quantidade: "; cin >> quantidade;
-                        cout << "Minutos por uso: "; cin >> minutos;
-                        cout << "Quantas vezes por dia: "; cin >> vezesPorDia;
+                        booleanoInput = Sistema::lerBooleano("Deseja  adcionar Chuveiro[1 = sim, 0 = não]: ");
+                        if (Sistema::desejaAdcionar(booleanoInput)){
+                        cout << "Chuveiro\n";
+                        int potencia = Sistema::lerInteiroPositivo("Potência (W): ");
+                        int quantidade = Sistema::lerInteiroPositivo("Quantidade: ");
+                        float minutos = Sistema::lerFloatPositivo("Minutos por uso: ");
+                        int vezesPorDia = Sistema::lerInteiroPositivo("Quantas vezes por dia: ");
 
                         novoComodo->adicionarEletrodomestico(new eletroEvento("Chuveiro", potencia, minutos, vezesPorDia, dias, quantidade));
-
+                        }
                         break;
+
                     }
                     case 2: {
+                        if (casa.temComodo("Cozinha")) {
+                            cout << "Já existe um cômodo chamado Cozinha. Não é possível adicionar novamente.\n";
+                            break;
+                        }
                         novoComodo = new Comodo("Cozinha");
-                        int potencia, quantidade;
-                        float fatorUso;
-                        cout << "Geladeira:\n";
-                        cout << "Potência (W): "; cin >> potencia;
-                        cout << "Quantidade: "; cin >> quantidade;
-                        cout << "Fator de uso (ex: 0.8): "; cin >> fatorUso;
-                        novoComodo->adicionarEletrodomestico(new geladeira("Geladeira", potencia, quantidade, dias, fatorUso));
-                        
-                        float horas;
+
+                        int potencia = 0, quantidade = 0;
+                        float horas = 0.0f;
                         bool standby;
-                        float standbyPotencia;
+                        float standbyPotencia = 0.0f;
+                        float fatorUso;
+                        float minutos = 0.0f;
+                        int vezesPorDia = 0;
+                        int booleanoInput;
+                        booleanoInput = Sistema::lerBooleano("Deseja adicionar Geladeira [1 = sim, 0 = não]: ");;
 
-                        cout << "Fogão Elétrico:\n";
-                        cout << "Potência (W): "; cin >> potencia;
-                        cout << "Quantidade: "; cin >> quantidade;
-                        cout << "Horas por dia: "; cin >> horas;
-                        cout << "Possui standby (1=sim, 0=não): "; cin >> standby;
-                        if (standby) {
-                            cout << "Potência standby (W): ";
-                            cin >> standbyPotencia;
-                        } else standbyPotencia = 0;
+                        if (Sistema::desejaAdcionar(booleanoInput)) {
+                            cout << "Geladeira:\n";
+                            potencia = Sistema::lerInteiroPositivo("Potência (W): ");
+                            quantidade = Sistema::lerInteiroPositivo("Quantidade: ");
+                            fatorUso = Sistema::lerFloatPositivo("Fator de uso (ex: 0.8): ");
+                            novoComodo->adicionarEletrodomestico(new geladeira("Geladeira", potencia, quantidade, dias, fatorUso));
+                        }
 
-                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Fogão Elétrico", potencia, quantidade, horas, dias, standby, standbyPotencia));
-                        
-                        float minutos;
-                        int vezesPorDia;
+                        booleanoInput = Sistema::lerBooleano("Deseja adicionar Fogão Elétrico [1 = sim, 0 = não]: ");
+                        if (Sistema::desejaAdcionar(booleanoInput)) {
+                            cout << "Fogão Elétrico:\n";
+                            potencia = Sistema::lerInteiroPositivo("Potência (W): ");
+                            quantidade = Sistema::lerInteiroPositivo("Quantidade: ");
+                            horas = Sistema::lerFloatPositivo("Horas por dia: ");
+                            cout << "Possui standby (1=sim, 0=não): ";
+                            cin >> standby;
+                            standbyPotencia = standby ? Sistema::lerFloatPositivo("Potência standby (W): ") : 0;
+                            novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Fogão Elétrico", potencia, quantidade, horas, dias, standby, standbyPotencia));
+                        }
 
-                        cout << "Micro-ondas:\n";
-                        cout << "Potência (W): "; cin >> potencia;
-                        cout << "Quantidade: "; cin >> quantidade;
-                        cout << "Minutos por uso: "; cin >> minutos;
-                        cout << "Quantas vezes por dia: "; cin >> vezesPorDia;
+                        booleanoInput = Sistema::lerBooleano("Deseja adicionar Micro-ondas [1 = sim, 0 = não]: ");
+                        if (Sistema::desejaAdcionar(booleanoInput)) {
+                            cout << "Micro-ondas:\n";
+                            potencia = Sistema::lerInteiroPositivo("Potência (W): ");
+                            quantidade = Sistema::lerInteiroPositivo("Quantidade: ");
+                            minutos = Sistema::lerFloatPositivo("Minutos por uso: ");
+                            vezesPorDia = Sistema::lerInteiroPositivo("Quantas vezes por dia: ");
+                            novoComodo->adicionarEletrodomestico(new eletroEvento("Micro-ondas", potencia, minutos, vezesPorDia, dias, quantidade));
+                        }
 
-                        novoComodo->adicionarEletrodomestico(new eletroEvento("Micro-ondas", potencia, minutos, vezesPorDia, dias, quantidade));
+                        booleanoInput = Sistema::lerBooleano("Deseja adicionar Liquidificador [1 = sim, 0 = não]: ");
+                        if (Sistema::desejaAdcionar(booleanoInput)) {
+                            cout << "Liquidificador:\n";
+                            potencia = Sistema::lerInteiroPositivo("Potência (W): ");
+                            quantidade = Sistema::lerInteiroPositivo("Quantidade: ");
+                            minutos = Sistema::lerFloatPositivo("Minutos por uso: ");
+                            vezesPorDia = Sistema::lerInteiroPositivo("Quantas vezes por dia: ");
+                            novoComodo->adicionarEletrodomestico(new eletroEvento("Liquidificador", potencia, minutos, vezesPorDia, dias, quantidade));
+                        }
 
-                        cout << "Liquidificador:\n";
-                        cout << "Potência (W): "; cin >> potencia;
-                        cout << "Quantidade: "; cin >> quantidade;
-                        cout << "Minutos por uso: "; cin >> minutos;
-                        cout << "Quantas vezes por dia: "; cin >> vezesPorDia;
+                        booleanoInput = Sistema::lerBooleano("Deseja adicionar Cafeteira elétrica [1 = sim, 0 = não]: ");
+                        if (Sistema::desejaAdcionar(booleanoInput)) {
+                            cout << "Cafeteira elétrica:\n";
+                            potencia = Sistema::lerInteiroPositivo("Potência (W): ");
+                            quantidade = Sistema::lerInteiroPositivo("Quantidade: ");
+                            minutos = Sistema::lerFloatPositivo("Minutos por uso: ");
+                            vezesPorDia = Sistema::lerInteiroPositivo("Quantas vezes por dia: ");
+                            novoComodo->adicionarEletrodomestico(new eletroEvento("Cafeteira elétrica", potencia, minutos, vezesPorDia, dias, quantidade));
+                        }
 
-                        novoComodo->adicionarEletrodomestico(new eletroEvento("Liquidificador", potencia, minutos, vezesPorDia, dias, quantidade));
-
-                        cout << "Cafeteira elétrica:\n";
-                        cout << "Potência (W): "; cin >> potencia;
-                        cout << "Quantidade: "; cin >> quantidade;
-                        cout << "Minutos por uso: "; cin >> minutos;
-                        cout << "Quantas vezes por dia: "; cin >> vezesPorDia;
-
-                        novoComodo->adicionarEletrodomestico(new eletroEvento("Cafeteira elétrica", potencia, minutos, vezesPorDia, dias, quantidade));
-
-                        cout << "Torradeira:\n";
-                        cout << "Potência (W): "; cin >> potencia;
-                        cout << "Quantidade: "; cin >> quantidade;
-                        cout << "Minutos por uso: "; cin >> minutos;
-                        cout << "Quantas vezes por dia: "; cin >> vezesPorDia;
-
-                        novoComodo->adicionarEletrodomestico(new eletroEvento("Torradeira", potencia, minutos, vezesPorDia, dias, quantidade));
+                        booleanoInput = Sistema::lerBooleano("Deseja adicionar Torradeira [1 = sim, 0 = não]: ");
+                        if (Sistema::desejaAdcionar(booleanoInput)) {
+                            cout << "Torradeira:\n";
+                            potencia = Sistema::lerInteiroPositivo("Potência (W): ");
+                            quantidade = Sistema::lerInteiroPositivo("Quantidade: ");
+                            minutos = Sistema::lerFloatPositivo("Minutos por uso: ");
+                            vezesPorDia = Sistema::lerInteiroPositivo("Quantas vezes por dia: ");
+                            novoComodo->adicionarEletrodomestico(new eletroEvento("Torradeira", potencia, minutos, vezesPorDia, dias, quantidade));
+                        }
 
                         break;
+                        
                     }
                     case 3: {
-                        novoComodo = new Comodo("Quarto");
-                        int potencia, quantidade;
-                        float horas;
-                        bool standby;
-                        float standbyPotencia;
-                        cout << "Ventilador:\n";
-                        cout << "Potência (W): "; cin >> potencia;
-                        cout << "Quantidade: "; cin >> quantidade;
-                        cout << "Horas por dia: "; cin >> horas;
-                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Ventilador", potencia, quantidade, horas, dias, false, 0));
-                        
-                        cout << "Computador\n";
-                        cout << "Potência (W): "; cin >> potencia;
-                        cout << "Quantidade: "; cin >> quantidade;
-                        cout << "Horas por dia: "; cin >> horas;
-                        cout << "Possui standby (1=sim, 0=não): "; cin >> standby;
-                        if (standby) {
-                            cout << "Potência standby (W): ";
-                            cin >> standbyPotencia;
-                        } else standbyPotencia = 0;
-                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Computador", potencia, quantidade, horas, dias, standby, standbyPotencia ));
-                        
-                        cout << "Televisor\n";
-                        cout << "Potência (W): "; cin >> potencia;
-                        cout << "Quantidade: "; cin >> quantidade;
-                        cout << "Horas por dia: "; cin >> horas;
-                        cout << "Possui standby (1=sim, 0=não): "; cin >> standby;
-                        if (standby) {
-                            cout << "Potência standby (W): ";
-                            cin >> standbyPotencia;
-                        } else standbyPotencia = 0;
-                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Televisor", potencia, quantidade, horas, dias, standby, standbyPotencia));
-                        
-                        cout << "Ar-condicionado\n";
-                        cout << "Potência (W): "; cin >> potencia;
-                        cout << "Quantidade: "; cin >> quantidade;
-                        cout << "Horas por dia: "; cin >> horas;
-                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Ar-condicionado", potencia, quantidade, horas, dias, false, 0));
-                        
+                        if (casa.temComodo("Quarto")) {
+                            cout << "Já existe um cômodo chamado Quarto. Não é possível adicionar novamente.\n";
+                            break;
+                        }
 
+                        novoComodo = new Comodo("Quarto");
+
+                        int potencia = 0, quantidade = 0;
+                        float horas = 0.0f;
+                        int booleanoInput;
+                        booleanoInput = Sistema::lerBooleano("Deseja adicionar Ventilador [1 = sim, 0 = não]: ");
+
+                        if (Sistema::desejaAdcionar(booleanoInput)) {
+                            cout << "Ventilador:\n";
+                            potencia = Sistema::lerInteiroPositivo("Potência (W): ");
+                            quantidade = Sistema::lerInteiroPositivo("Quantidade: ");
+                            horas = Sistema::lerFloatPositivo("Horas por dia: ");
+                            novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Ventilador", potencia, quantidade, horas, dias, false, 0));
+                        }
+
+                        booleanoInput = Sistema::lerBooleano("Deseja adicionar Ar-condicionado [1 = sim, 0 = não]: ");
+                        if (Sistema::desejaAdcionar(booleanoInput)) {
+                            cout << "Ar-condicionado:\n";
+                            potencia = Sistema::lerInteiroPositivo("Potência (W): ");
+                            quantidade = Sistema::lerInteiroPositivo("Quantidade: ");
+                            horas = Sistema::lerFloatPositivo("Horas por dia: ");
+                            novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Ar-condicionado", potencia, quantidade, horas, dias, false, 0));
+                        }
                         break;
                     }
                     case 4: {
+                       if (casa.temComodo("Sala")) {
+                            cout << "Já existe um cômodo chamado Sala. Não é possível adicionar novamente.\n";
+                            break;
+                        }
+
                         novoComodo = new Comodo("Sala");
+
                         int potencia, quantidade;
                         float horas;
                         bool standby;
                         float standbyPotencia;
+                        int booleanoInput;
 
-                        cout << "TV:\n";
-                        cout << "Potência (W): "; cin >> potencia;
-                        cout << "Quantidade: "; cin >> quantidade;
-                        cout << "Horas por dia: "; cin >> horas;
-                        cout << "Possui standby (1=sim, 0=não): "; cin >> standby;
-                        if (standby) {
-                            cout << "Potência standby (W): ";
-                            cin >> standbyPotencia;
-                        } else standbyPotencia = 0;
+                        // === TV ===
+                        booleanoInput = Sistema::lerBooleano("Deseja adicionar TV [1 = sim, 0 = não]:  ");
+                        if (Sistema::desejaAdcionar(booleanoInput)) {
+                            cout << "TV:\n";
+                            potencia = Sistema::lerInteiroPositivo("Potência (W): ");
+                            quantidade = Sistema::lerInteiroPositivo("Quantidade: ");
+                            horas = Sistema::lerFloatPositivo("Horas por dia: ");
+                            cout << "Possui standby (1=sim, 0=não): ";
+                            cin >> standby;
+                            standbyPotencia = standby ? Sistema::lerFloatPositivo("Potência standby (W): ") : 0;
+                            novoComodo->adicionarEletrodomestico(new eletronicoGenerico("TV", potencia, quantidade, horas, dias, standby, standbyPotencia));
+                        }
 
-                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("TV", potencia, quantidade, horas, dias, standby, standbyPotencia));
-                        
-                        cout << "Ar-condicionado:\n";
-                        cout << "Potência (W): "; cin >> potencia;
-                        cout << "Quantidade: "; cin >> quantidade;
-                        cout << "Horas por dia: "; cin >> horas;
+                        // === Ar-condicionado ===
+                        booleanoInput = Sistema::lerBooleano("Deseja adicionar Ar-condicionado [1 = sim, 0 = não]: ");
+                        if (Sistema::desejaAdcionar(booleanoInput)) {
+                            cout << "Ar-condicionado:\n";
+                            potencia = Sistema::lerInteiroPositivo("Potência (W): ");
+                            quantidade = Sistema::lerInteiroPositivo("Quantidade: ");
+                            horas = Sistema::lerFloatPositivo("Horas por dia: ");
+                            novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Ar-condicionado", potencia, quantidade, horas, dias, false, 0));
+                        }
 
-                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Ar-condicionado", potencia, quantidade, horas, dias, false, 0));
-                        
-                        cout << "Ventilador:\n";
-                        cout << "Potência (W): "; cin >> potencia;
-                        cout << "Quantidade: "; cin >> quantidade;
-                        cout << "Horas por dia: "; cin >> horas;
+                        // === Ventilador ===
+                        booleanoInput = Sistema::lerBooleano("Deseja adicionar Ventilador [1 = sim, 0 = não]: ");
+                        if (Sistema::desejaAdcionar(booleanoInput)) {
+                            cout << "Ventilador:\n";
+                            potencia = Sistema::lerInteiroPositivo("Potência (W): ");
+                            quantidade = Sistema::lerInteiroPositivo("Quantidade: ");
+                            horas = Sistema::lerFloatPositivo("Horas por dia: ");
+                            novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Ventilador", potencia, quantidade, horas, dias, false, 0));
+                        }
 
-                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Ventilador", potencia, quantidade, horas, dias, false, 0));
-                        
-                        cout << "Videogame\n";
-                        cout << "Potência (W): "; cin >> potencia;
-                        cout << "Quantidade: "; cin >> quantidade;
-                        cout << "Horas por dia: "; cin >> horas;
-                        cout << "Possui standby (1=sim, 0=não): "; cin >> standby;
-                        if (standby) {
-                            cout << "Potência standby (W): ";
-                            cin >> standbyPotencia;
-                        } else standbyPotencia = 0;
-
-                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Videogame", potencia, quantidade, horas, dias, standby, standbyPotencia));
-                        
+                        // === Videogame ===
+                        booleanoInput = Sistema::lerBooleano("Deseja adicionar Videogame [1 = sim, 0 = não]: ");
+                        if (Sistema::desejaAdcionar(booleanoInput)) {
+                            cout << "Videogame:\n";
+                            potencia = Sistema::lerInteiroPositivo("Potência (W): ");
+                            quantidade = Sistema::lerInteiroPositivo("Quantidade: ");
+                            horas = Sistema::lerFloatPositivo("Horas por dia: ");
+                            cout << "Possui standby (1=sim, 0=não): ";
+                            cin >> standby;
+                            standbyPotencia = standby ? Sistema::lerFloatPositivo("Potência standby (W): ") : 0;
+                            novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Videogame", potencia, quantidade, horas, dias, standby, standbyPotencia));
+                        }
 
                         break;
-                    }
-                    case 5: {
-                        novoComodo = new Comodo("Iluminação");
-                        int potencia, quantidade, dias;
-                        float horas;
-                        bool standby;
-                        float standbyPotencia;
-
-                        cout << "Lampada:\n";
-                        cout << "Potência (W): "; cin >> potencia;
-                        cout << "Quantidade: "; cin >> quantidade;
-                        cout << "Horas por dia: "; cin >> horas;
-                        standby = false; standbyPotencia = 0;
-                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Luzes", potencia, quantidade, horas, dias, standby, standbyPotencia));
-                        break;
-
                     }
                     case 6: {
-                        novoComodo = new Comodo("Lavandeiria");
-                        int potencia, quantidade, dias;
+                        if (casa.temComodo("Lavanderia")) {
+                            cout << "Já existe um cômodo chamado Lavanderia. Não é possível adicionar novamente.\n";
+                            break;
+                        }
+
+                        novoComodo = new Comodo("Lavanderia");
+
+                        int potencia, quantidade;
                         float horas;
-                        bool standby;
-                        float standbyPotencia;
+                        bool standby = false;
+                        float standbyPotencia = 0;
+                        int booleanoInput;
 
-                        cout << "Máquina de lavar:\n";
-                        cout << "Potência (W): "; cin >> potencia;
-                        cout << "Quantidade: "; cin >> quantidade;
-                        cout << "Horas por dia: "; cin >> horas;
-                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Máquina de Lavar", potencia, quantidade, horas, dias, false, 0));
+                        // === Máquina de lavar ===
+                        booleanoInput = Sistema::lerBooleano("Deseja adicionar Máquina de Lavar [1 = sim, 0 = não]:");
+                        if (Sistema::desejaAdcionar(booleanoInput)) {
+                            cout << "Máquina de lavar:\n";
+                            potencia = Sistema::lerInteiroPositivo("Potência (W): ");
+                            quantidade = Sistema::lerInteiroPositivo("Quantidade: ");
+                            horas = Sistema::lerFloatPositivo("Horas por dia: ");
+                            novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Máquina de Lavar", potencia, quantidade, horas, dias, standby, standbyPotencia));
+                        }
 
-                        cout << "Secadora:\n";
-                        cout << "Potência (W): "; cin >> potencia;
-                        cout << "Quantidade: "; cin >> quantidade;
-                        cout << "Horas por dia: "; cin >> horas;
-                        novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Secadora", potencia, quantidade, horas, dias, false, 0));
-                        
+                        // === Secadora ===
+                        booleanoInput = Sistema::lerBooleano("Deseja adicionar Secadora [1 = sim, 0 = não]: ");
+                        if (Sistema::desejaAdcionar(booleanoInput)) {
+                            cout << "Secadora:\n";
+                            potencia = Sistema::lerInteiroPositivo("Potência (W): ");
+                            quantidade = Sistema::lerInteiroPositivo("Quantidade: ");
+                            horas = Sistema::lerFloatPositivo("Horas por dia: ");
+                            novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Secadora", potencia, quantidade, horas, dias, standby, standbyPotencia));
+                        }
+
                         break;
 
+                    }
+                    case 7: {
+                        cout << "Voltando ao Menu Principal\n";
+                        break;
                     }
                     default:
                         cout << "Opção inválida.\n";
@@ -458,6 +470,8 @@ void Sistema::menuPrincipal() {
                             break;
                         case 4: {
                             string nomeEletro;
+                            comodo.getEletrodomesticosConsumo();
+                            cout << "=======================================" << endl;
                             cout << "Digite o nome do eletrodoméstico que voce deseja remover: ";
                             cin.ignore();
                             getline(cin, nomeEletro);

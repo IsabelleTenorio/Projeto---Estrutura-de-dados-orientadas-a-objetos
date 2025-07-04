@@ -17,6 +17,7 @@ public:
     void exibirComodosPorConsumo() const;
     std::pair<float, float> calcularConsumoComodos() const;
     const vector<Comodo*>& getComodos() const;
+    bool temComodo(const std::string& nome) const;
     Comodo& getComodo(const string& nome);
     ~Casa();
 

@@ -9,9 +9,8 @@ eletroEvento::eletroEvento(std::string nomeInput, int potenciaInput, float durac
       duracaoEventoMin(duracaoEventoInput),
       eventosPorDia(eventosPorDiaInput)
 {
-    nome = "Eletro por Evento"; // Aqui você pode definir um nome mais genérico ou manter o nomeInput
+    
 }
-
 // Calcula o consumo de energia com base em eventos (sessões curtas de uso)
 // Fórmula: (potência × duração × eventos/dia × dias × quantidade) ÷ 1000
 float eletroEvento::calcKwh() {

@@ -56,6 +56,12 @@ string Comodo::getEletrodomesticosConsumo() const{
 
 }
 
+bool verificarValor(double valorInput) {
+    if (valorInput > 0){
+        return true;
+    }else return false;
+}
+
 Comodo::~Comodo(){
     for (auto& par : eletrodomesticos){
         delete par.second;

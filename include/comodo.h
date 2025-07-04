@@ -14,6 +14,7 @@ public:
     void adicionarEletrodomestico(eletroDomestico* eletro); //-- adiciona eletrodoméstico com seu consumo na lista
     void retirarEletrodomestico(const string& nomeEletro); //-- retira eletrodoméstico da lista
     double calcularConsumoTotal() const; //-- calcula o consumo total de energia do cômodo
+    bool verificarValor(double valorInput);
 
     string getNome() const; //--pega o nome do cômodo
     void setNome(const string& novoNome); //-- define o nome do cômodo
