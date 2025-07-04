@@ -56,7 +56,6 @@ const std::vector<Comodo*>& Casa::getComodos() const {
 
 void Casa::imprimirComodos() const {
     for (const auto& comodo : comodos) {
-        std::cout << "Calculando consumo do comodo: " << comodo->getNome() << std::endl;
         std::cout << comodo->getNome() << ": " << std::fixed << std::setprecision(2)
                   << comodo->calcularConsumoTotal() << " kWh" << std::endl;
     }
