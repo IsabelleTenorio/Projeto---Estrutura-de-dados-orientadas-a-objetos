@@ -141,10 +141,14 @@ void Sistema::menuPrincipal() {
     {
     setlocale(LC_ALL,"pt_BR.UTF-8");
     int opcao;
+    
+    cout << "\n===== Sistema de Consumo Energético =====\n";
+    cout << "================ CINergy ================\n\n";
+    cout << "Seja bem vindo!";
 
     float dias = 0;
     do{
-    cout << "Quantida de dias: ";
+    cout << "\nDigite a quantidade de dias que você quer simular: ";
     cin >> dias;
     if (dias < 1){
         cout << "Digite dias validos. ";
@@ -153,13 +157,14 @@ void Sistema::menuPrincipal() {
 
     do {
         cout << "\n===== Sistema de Consumo Energético =====\n";
+        cout << "================ CINergy ================\n\n";
         cout << "1. Listar cômodos e consumo\n";
         cout << "2. Exibir consumo total da casa\n";
         cout << "3. Adicionar novo cômodo\n";
         cout << "4. Excluir cômodo\n";
         cout << "5. Acessar cômodo\n";
         cout << "6. Acessar simulador de conta de energia\n";
-        cout << "7 Listar o raking de cômodos por Consumo\n";
+        cout << "7. Listar o raking de cômodos por Consumo\n";
         cout << "8. Sair\n";
         cout << "\nDigite o número da opção desejada: ";
         cin >> opcao;
@@ -177,9 +182,9 @@ void Sistema::menuPrincipal() {
             }
 
             case 3: {
-                
+                cout << "=========== Adicionando cômodo ===========\n";
                 cout << "Escolha o cômodo que deseja adicionar:\n";
-                cout << "1. Banheiro\n2. Cozinha\n3. Quarto\n4. Sala\n5. Iluminação\n6. Lavandeiria\n";
+                cout << "1. Banheiro\n2. Cozinha\n3. Quarto\n4. Sala\n5. Iluminação\n6. Lavanderia\n";
                 int tipo;
                 cin >> tipo;
 
@@ -192,7 +197,7 @@ void Sistema::menuPrincipal() {
                         int potencia, quantidade;
                         float minutos;
                         int vezesPorDia;
-
+                        cout << "\n======== Adicionando eletrodomésticos ao cômodo Banheiro ========\n";
                         cout << "Chuveiro:\n";
                         cout << "Potência (W): "; cin >> potencia;
                         cout << "Quantidade: "; cin >> quantidade;
@@ -207,6 +212,7 @@ void Sistema::menuPrincipal() {
                         novoComodo = new Comodo("Cozinha");
                         int potencia, quantidade;
                         float fatorUso;
+                        cout << "\n======== Adicionando eletrodomésticos ao cômodo Cozinha ========\n";
                         cout << "Geladeira:\n";
                         cout << "Potência (W): "; cin >> potencia;
                         cout << "Quantidade: "; cin >> quantidade;
@@ -272,6 +278,7 @@ void Sistema::menuPrincipal() {
                         float horas;
                         bool standby;
                         float standbyPotencia;
+                        cout << "\n======== Adicionando eletrodomésticos ao cômodo Quarto ========\n";
                         cout << "Ventilador:\n";
                         cout << "Potência (W): "; cin >> potencia;
                         cout << "Quantidade: "; cin >> quantidade;
@@ -315,7 +322,7 @@ void Sistema::menuPrincipal() {
                         float horas;
                         bool standby;
                         float standbyPotencia;
-
+                        cout << "\n======== Adicionando eletrodomésticos ao cômodo Sala ========\n";
                         cout << "TV:\n";
                         cout << "Potência (W): "; cin >> potencia;
                         cout << "Quantidade: "; cin >> quantidade;
@@ -353,7 +360,6 @@ void Sistema::menuPrincipal() {
                         } else standbyPotencia = 0;
 
                         novoComodo->adicionarEletrodomestico(new eletronicoGenerico("Videogame", potencia, quantidade, horas, dias, standby, standbyPotencia));
-                        
 
                         break;
                     }
@@ -363,7 +369,7 @@ void Sistema::menuPrincipal() {
                         float horas;
                         bool standby;
                         float standbyPotencia;
-
+                        cout << "\n======== Adicionando eletrodomésticos de Iluminação ========\n";
                         cout << "Lampada:\n";
                         cout << "Potência (W): "; cin >> potencia;
                         cout << "Quantidade: "; cin >> quantidade;
@@ -374,12 +380,12 @@ void Sistema::menuPrincipal() {
 
                     }
                     case 6: {
-                        novoComodo = new Comodo("Lavandeiria");
+                        novoComodo = new Comodo("Lavanderia");
                         int potencia, quantidade, dias;
                         float horas;
                         bool standby;
                         float standbyPotencia;
-
+                        cout << "\n======== Adicionando eletrodomésticos ao cômodo Lavanderia ========\n";
                         cout << "Máquina de lavar:\n";
                         cout << "Potência (W): "; cin >> potencia;
                         cout << "Quantidade: "; cin >> quantidade;
@@ -396,13 +402,13 @@ void Sistema::menuPrincipal() {
 
                     }
                     default:
-                        cout << "Opção inválida.\n";
+                        cout << "\nOpção inválida.\n";
                         break;
                 }
 
                 if (novoComodo != nullptr) {
                     casa.addComodo(novoComodo);
-                    cout << "\nCômodo e eletrodomésticos adicionados com sucesso!\n";
+                    cout << "\n... Cômodo e eletrodomésticos adicionados com sucesso!\n";
                 }
                 break;
             }
@@ -410,15 +416,16 @@ void Sistema::menuPrincipal() {
             case 4: {
                 string nomeComodo;
                 if (casa.getComodos().empty()) {
-                    cout << "Nenhum cômodo cadastrado. Adicione um cômodo primeiro.\n";
+                    cout << "\nNenhum cômodo cadastrado. Adicione um cômodo primeiro.\n";
                     break;
                 }
+                cout << "=========== Removendo cômodo ===========\n";
                 casa.imprimirComodos();
                 cout << "Digite o nome do cômodo que você deseja excluir: ";
                 cin.ignore();
                 getline(cin, nomeComodo);
                 casa.removeComodo(nomeComodo);
-                cout << "Cômodo removido com sucesso!\n";
+                cout << "\n... Cômodo removido com sucesso!\n";
                 break;
             }
 
@@ -436,12 +443,16 @@ void Sistema::menuPrincipal() {
 
                 int opcaoComodo;
                 do {
-                    cout << "\n== Menu do cômodo: " << comodo.getNome() << " ==\n";
+                    int potencia, quantidade, dias;
+                    float horas, standbyPotencia;
+                    bool standby;
+                    string nomeEletro;
+
+                    cout << "\n=========== Menu do cômodo: " << comodo.getNome() << " ============\n";
                     cout << "1. Exibir eletrodomésticos\n";
                     cout << "2. Exibir consumo do cômodo\n";
-                    cout << "3. Adicionar eletrodoméstico\n";
-                    cout << "4. Remover eletrodoméstico\n";
-                    cout << "5. Voltar ao menu principal\n";
+                    cout << "3. Remover eletrodoméstico\n";
+                    cout << "4. Voltar ao menu principal\n";
                     cout << "Digite o número da opção desejada: ";
                     cin >> opcaoComodo;
                     cout << "\n==========================================\n\n";
@@ -453,32 +464,32 @@ void Sistema::menuPrincipal() {
                         case 2:
                             cout << "Consumo do cômodo " << comodo.getNome() << ": " << comodo.calcularConsumoTotal() << " kWh\n";
                             break;
-                        case 3:
-                            cout << "Adição manual desativada neste modo.\n";
-                            break;
-                        case 4: {
+
+                        case 3: {
                             string nomeEletro;
+                            cout << "======== Removendo eletrodoméstico ao cômodo " << comodo.getNome() << "========\n";
                             cout << "Digite o nome do eletrodoméstico que voce deseja remover: ";
                             cin.ignore();
                             getline(cin, nomeEletro);
                             comodo.retirarEletrodomestico(nomeEletro);
-                            cout << "Eletrodoméstico removido com sucesso!\n";
+                            cout << "... Eletrodoméstico removido com sucesso!\n";
                             break;
                         }
-                        case 5:
-                            cout << "Voltando ao menu principal...\n";
+                        case 4:
+                            cout << "\nVoltando ao menu principal...\n";
                             break;
                         default:
-                            cout << "Opção inválida! Tente novamente.\n";
+                            cout << "\nOpção inválida! Tente novamente.\n";
                             break;
                     }
-                } while (opcaoComodo != 5);
+                } while (opcaoComodo != 4);
                 break;
             }
 
             case 6: {
+                cout << "======== Simulando conta de energia ========\n";
                 auto simular_conta = casa.calcularConsumoComodos();
-                cout << "Simulação de conta de energia: R$ " << simular_conta.first << "\n";
+                cout << "Simulação de conta de energia: R$ " << simular_conta.second << "\n";
                 break;
             }
 
@@ -488,11 +499,11 @@ void Sistema::menuPrincipal() {
             }
 
             case 8:
-                cout << "Encerrando o programa...\n";
+                cout << "\nEncerrando o programa...\n";
                 break;
 
             default:
-                cout << "Opção inválida! Tente novamente.\n";
+                cout << "\nOpção inválida! Tente novamente.\n";
                 break;
         }
 
