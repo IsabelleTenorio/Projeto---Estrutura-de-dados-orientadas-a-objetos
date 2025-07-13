@@ -212,7 +212,7 @@ footer p{
     text-align: center;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1090px) {
     main {
         margin-left: 20px;
         margin-right: 20px;
