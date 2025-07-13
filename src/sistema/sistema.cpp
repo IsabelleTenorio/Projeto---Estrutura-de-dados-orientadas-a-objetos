@@ -123,7 +123,7 @@ void Sistema::menuPrincipal() {
     float dias = Sistema::lerFloatPositivo("Quantidade de dias: ");
 
     do {
-        cout << "\n===== Sistema de Consumo Energético =====\n";
+        cout << "\n===== Sistema de Cálculo de Consumo Energético =====\n";
         cout << "1. Listar cômodos e consumo\n";
         cout << "2. Exibir consumo total da casa\n";
         cout << "3. Adicionar novo cômodo\n";
