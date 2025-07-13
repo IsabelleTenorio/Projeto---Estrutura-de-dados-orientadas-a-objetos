@@ -15,7 +15,7 @@ O objetivo deste projeto é simular o gasto energético de uma casa com diferent
 - Listar todos os eletrodomésticos de um cômodo e seus consumos.
 
 ## Estrutura
-.
+```
 │── assets
 │── CmakeLists.txt
 │── index.html
@@ -43,7 +43,7 @@ O objetivo deste projeto é simular o gasto energético de uma casa com diferent
 │   └── sistema
 │       └── sistema.cpp
 │── styles.css
-
+```
 
 ## Conceitos utilizados
 ### Herança
