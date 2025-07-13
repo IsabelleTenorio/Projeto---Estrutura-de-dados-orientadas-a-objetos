@@ -15,39 +15,51 @@ O objetivo deste projeto é simular o gasto energético de uma casa com diferent
 - Listar todos os eletrodomésticos de um cômodo e seus consumos.
 
 ## Estrutura
+.
+│── assets
+│── CmakeLists.txt
+│── index.html
+│── include
+│   ├── casa.h
+│   ├── comodo.h
+│   ├── eletroDomestico.h
+│   ├── eletronicoEvento.h
+│   ├── eletronicoGenerico.h
+│   ├── geladeira.h
+│   └── sistema.h
+│── main.cpp
+│── README.md
+│── src
+│   │── casa
+│   │   └── casa.cpp
+│   │── comodo
+│   │   └── comodo.cpp
+│   │── eletronico
+│   │   │── eletronicoEvento
+│   │   │   └── eletronicoEvento.cpp
+│   │   │── eletronicoGenerico.cpp
+│   │   │── geladeira
+│   │       └── geladeira.cpp
+│   └── sistema
+│       └── sistema.cpp
+│── styles.css
+
 
 ## Conceitos utilizados
 ### Herança
-- Descrição
-- Exemplo
+Este mecanismo foi central para a criação da hierarquia de eletrodomésticos, evitando a repetição de código e estabelecendo uma relação lógica entre os diferentes tipos de aparelhos. Foi criada uma classe base abstrata eletroDomestico, que define características comuns a todos os aparelhos, como nome, quantidade e diasSimulado. As classes eletronicoGenerico, eletroEvento e geladeira herdam de eletroDomestico, especializando o seu comportamento.
 
 ### Polimorfismo
-- Descrição
-- Exemplo
+No projeto, o polimorfismo foi alcançado através de funções virtuais, permitindo que a classe Comodo tratasse todos os eletrodomésticos de forma uniforme. A classe Comodo armazena ponteiros do tipo eletroDomestico* num map. Ao calcular o consumo total, ela itera sobre essa coleção e chama o método calcKwh() para cada aparelho. Graças ao polimorfismo, a versão correta do método (eletronicoGenerico::calcKwh(), geladeira::calcKwh(), etc.) é executada em tempo de execução, sem que a classe Comodo precise saber o tipo exato de cada objeto.
+
+### Encapsulamento
+Todas as classes principais (Casa, Comodo, eletroDomestico) utilizam encapsulamento. Seus atributos são declarados como private ou protected, e o acesso a eles só é permitido através de métodos públicos (Getters e Setters). Protegendo a integridade dos dados e desacoplando as partes do sistema.
 
 ### Classes
-- Descrição
-- Exemplo
-
-### Orientação a objetos
-- Descrição
-- Exemplo
-
-### Ponteiros e referências
-- Descrição
-- Exemplo
+As classes criadas foram: Sistema, Casa, Comodo, EletroDomestico (abstrata), EletronicoGenerico (derivada de EletroDomestico), EletronicoEvento (derivada de EletroDomestico) e Geladeira (derivada de EletroDomestico). As informações sobre como essas classes foram utilizadas está presente no relatório.
 
 ### CRUD
-- Descrição
-- Exemplo
-
-### Get e Set
-- Descrição
-- Exemplo
-
-### Controle de acesso 
-- Descrição
-- Exemplo
+Nosso CRUD consiste em: Create, read e delete, pois é possível criar cômodos e eletrodomésticos, ler suas informações e deletá-los.
 
 ## Como usar
 ### CMake
@@ -62,7 +74,13 @@ O objetivo deste projeto é simular o gasto energético de uma casa com diferent
    - Digitar "./projeto.exe" ou ".\Debug\projeto.exe" a depender de onde o executável está.
 
 ## Vídeo de apresentação do projeto
-Link youtube/drive
+https://youtu.be/1VsHTaUycB4?si=qjyzh-okKwdLbLlK
+
+## Link do git pages
+https://isabelletenorio.github.io/Projeto-Estrutura-de-dados-orientadas-a-objetos/
+
+## Link do relatório
+https://docs.google.com/document/d/11Xp8X7CykaMIpFoqtpIPjKknTuesOZUoyTd243JmsfI/edit?usp=sharing
 
 ## Créditos e autoria
 [Eduarda Rodrigues de Moura Santana](https://github.com/dudarmouras) | erms2@cin.ufpe.br
