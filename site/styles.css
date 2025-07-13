@@ -1,0 +1,240 @@
+body{
+    background-color: white;
+    color: #000000;
+    font-family: 'nunito', sans-serif;
+}
+
+a{
+    text-decoration: none;
+    color: #000000;
+}
+
+
+main{
+    margin-left: 100px;
+    margin-right: 100px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+main h1{
+    color:rgb(18, 146, 76);
+    text-align: center;
+    margin-top: 50px;
+}
+
+main h2{
+    text-align: center;
+}
+
+main p{
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
+
+.box1{
+    background-color:rgb(124, 212, 146);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    margin-left: 140px;
+    margin-right: 140px;
+    margin-top: 40px;
+    border-radius: 10px;
+}
+
+.box1 p{
+    padding-left: 55px;
+    padding-right: 55px;
+}
+
+.box2{
+    background-color:rgb(124, 212, 146);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    margin-left: 140px;
+    margin-right: 140px;
+    margin-top: 40px;
+    border-radius: 10px;
+}
+
+.box3{
+    background-color:rgb(124, 212, 146);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    margin-left: 140px;
+    margin-right: 140px;
+    margin-top: 40px;
+    border-radius: 10px;
+}
+
+.col0{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    gap: 120px;
+}
+
+.box4{
+    background-color:rgb(124, 212, 146);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    margin-left: 140px;
+    margin-right: 140px;
+    margin-top: 40px;
+    border-radius: 10px;
+}
+
+.box4 img{
+    width: 240px;
+}
+
+.box5{
+    background-color:rgb(124, 212, 146);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    margin-left: 140px;
+    margin-right: 140px;
+    margin-top: 40px;
+    border-radius: 10px;
+}
+
+.box5 div{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    gap: 100px;
+}
+
+.box5 img{
+    width: 100px;
+}
+
+.galery{
+    background-color:rgb(124, 212, 146);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    margin-left: 140px;
+    margin-right: 140px;
+    margin-top: 40px;
+    border-radius: 10px;
+}
+
+.galery div{
+    padding: 30px;
+}
+
+.galery img{
+    width: 240px;
+}
+
+.galery a{
+    display: flex;
+    align-items:center;
+}
+
+.photogrid{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+
+footer{
+    background-color:rgb(124, 212, 146);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 240px;
+    margin-right: 240px;
+    margin-bottom: 60px;
+    padding: 20px;
+    margin-top: 60px;
+    border-radius: 10px;
+}
+
+footer div{
+    display: flex;
+    padding: 10px;
+    flex-direction: row;
+    gap: 20px;
+}
+
+footer img{
+    width: 120px;
+    border-radius: 50%;
+    padding-left: 10px;
+}
+
+footer a{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+footer p{
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+    main {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    
+    .box1, .box2, .box3, .box4, .box5 {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    
+    footer {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    
+    footer div {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    footer img {
+        width: 80px;
+    }
+    
+}
