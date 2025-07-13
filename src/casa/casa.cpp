@@ -6,7 +6,7 @@
 
 
 void Casa::addComodo(Comodo* comodo) {
-    comodos.push_back(comodo); // em termos de python, isso seria como comodos.append(comodo)
+    comodos.push_back(comodo);
 }
 
 void Casa::removeComodo(const std::string& nomeComodo) {

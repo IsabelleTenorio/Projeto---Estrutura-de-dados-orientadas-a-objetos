@@ -5,6 +5,7 @@
 #include <string>
 
 // Classe que representa uma geladeira, herda de eletroDomestico
+// foi necessário uma classe própria para geladeira pois ela funciona de forma diferente dos outros eletrodomésticos
 class geladeira : public eletroDomestico {
 private:
     int potencia;      // Potência da geladeira em watts
